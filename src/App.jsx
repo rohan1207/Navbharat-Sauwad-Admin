@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
+import MobileMessage from "./components/MobileMessage";
 
 // Admin imports
 import Login from "./pages/Login";
@@ -12,6 +13,7 @@ import EPaperManagement from "./pages/EPaperManagement";
 const App = () => {
   return (
     <AuthProvider>
+        <MobileMessage />
         <React.Suspense
           fallback={<div className="p-6 text-center">Loading admin...</div>}
         >
