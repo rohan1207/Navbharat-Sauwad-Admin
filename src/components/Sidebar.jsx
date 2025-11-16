@@ -109,7 +109,7 @@ const Sidebar = () => {
               <div 
                 className="w-12 h-12 rounded-full flex items-center justify-center"
                 style={{
-                  background: 'linear-gradient(135deg, #006D5B 0%, #004B3F 100%)',
+                  background: 'orange',
                   boxShadow: '0 4px 12px rgba(0, 109, 91, 0.2)'
                 }}
               >
@@ -139,8 +139,8 @@ const Sidebar = () => {
                     `flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all duration-200
                     ${
                       isActive
-                        ? 'bg-[#006D5B] text-white shadow-sm [&_span]:text-white'
-                        : 'text-gray-600 hover:bg-gray-50 [&_span]:text-[#006D5B]'
+                        ? 'bg-gradient-to-r from-red-600 via-orange-500 to-yellow-500 text-white shadow-sm [&_span]:text-white'
+                        : 'text-gray-600 hover:bg-gradient-to-r hover:from-red-50 hover:via-orange-50 hover:to-yellow-50 [&_span]:text-orange-600'
                     }`
                   }
                   style={{
@@ -254,8 +254,8 @@ const Sidebar = () => {
                     `flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all duration-200
                     ${
                       isActive
-                        ? 'bg-[#006D5B] text-white shadow-sm'
-                        : 'text-gray-600 hover:bg-gray-50'
+                        ? 'bg-gradient-to-r from-red-600 via-orange-500 to-yellow-500 text-white shadow-sm'
+                        : 'text-gray-600 hover:bg-gradient-to-r hover:from-red-50 hover:via-orange-50 hover:to-yellow-50'
                     }`
                   }
                   style={{
