@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="mr">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>नवभारत संवाद - व्यवस्थापन पॅनेल | Navbharat Samvad - Admin Panel</title>
+    <meta name="description" content="नवभारत संवाद व्यवस्थापन पॅनेल - ई-पेपर, बातम्या, लेख आणि सामग्री व्यवस्थापन. Navbharat Samvad Admin Panel - Manage e-paper, news, articles and content.">
+    <meta name="keywords" content="नवभारत संवाद, व्यवस्थापन पॅनेल, ई-पेपर व्यवस्थापन, बातम्या व्यवस्थापन, Navbharat Samvad, admin panel, e-paper management, news management">
+    <meta name="language" content="Marathi">
+    <meta name="robots" content="noindex, nofollow">
+    
+    <!-- Open Graph tags for social sharing -->
+    <meta property="og:title" content="नवभारत संवाद - व्यवस्थापन पॅनेल">
+    <meta property="og:description" content="ई-पेपर, बातम्या आणि सामग्री व्यवस्थापन">
+    <meta property="og:url" content="https://navbharatsamvad.com/admin">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://navbharatsamvad.com/logo.png">
+    <meta property="og:locale" content="mr_IN">
+    
+    <!-- Twitter Card data -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="नवभारत संवाद - व्यवस्थापन पॅनेल">
+    <meta name="twitter:description" content="ई-पेपर आणि सामग्री व्यवस्थापन">
+    <meta name="twitter:image" content="https://navbharatsamvad.com/logo.png">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      // Check if we need to redirect to a specific path
+      (function() {
+        const redirect = sessionStorage.getItem('redirect');
+        if (redirect) {
+          sessionStorage.removeItem('redirect');
+          if (redirect !== location.pathname) {
+            history.replaceState(null, null, redirect);
+          }
+        }
+      })();
+    </script>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "@id": "https://navbharatsamvad.com/admin",
+  "name": "नवभारत संवाद व्यवस्थापन पॅनेल",
+  "alternateName": "Navbharat Samvad Admin Panel",
+  "url": "https://navbharatsamvad.com/admin",
+  "description": "नवभारत संवाद वृत्तपत्रासाठी व्यवस्थापन पॅनेल. ई-पेपर, बातम्या, लेख आणि सामग्री व्यवस्थापनासाठी. Admin panel for Navbharat Samvad newspaper. Manage e-paper, news, articles and content.",
+  "applicationCategory": "ContentManagementSystem",
+  "operatingSystem": "Web",
+  "inLanguage": "mr"
+}
+</script>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
