@@ -7,7 +7,11 @@ if (!/^https?:\/\//i.test(normalizedBase)) {
 }
 // remove trailing slash
 normalizedBase = normalizedBase.replace(/\/$/, '');
-export const API_BASE = `${normalizedBase}/api`;
+// Ensure it includes /api at the end
+if (!normalizedBase.endsWith('/api')) {
+  normalizedBase = `${normalizedBase}/api`;
+}
+export const API_BASE = normalizedBase;
 
 export const apiFetch = async (endpoint, options = {}) => {
   // Prefer adminToken if present to avoid picking up a stale 'token'
