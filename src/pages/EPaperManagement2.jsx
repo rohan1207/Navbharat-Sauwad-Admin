@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import EMappingInterface2 from '../components/EMappingInterface2';
-import { FiUpload, FiFile, FiX, FiEdit2, FiArrowUp, FiArrowDown, FiGripVertical } from 'react-icons/fi';
+import { FiUpload, FiFile, FiX, FiEdit2, FiArrowUp, FiArrowDown, FiMenu } from 'react-icons/fi';
 import { apiFetch } from '../utils/api';
 
 const EPaperManagement2 = () => {
@@ -577,7 +577,7 @@ const EPaperManagement2 = () => {
                                 </button>
                               </div>
                               <div className="flex items-center space-x-2 flex-1">
-                                <FiGripVertical className="text-gray-400" />
+                                <FiMenu className="text-gray-400" />
                                 <span className="text-sm font-medium text-gray-700">पृष्ठ {pageUpload.pageNo}:</span>
                                 <span className="text-sm text-gray-600 truncate">{pageUpload.file.name}</span>
                                 <span className="text-xs text-gray-400">
