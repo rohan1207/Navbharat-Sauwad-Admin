@@ -190,7 +190,7 @@ const EPaperManagement = () => {
                 type="text"
                 value={newEpaper.title}
                 onChange={(e) => setNewEpaper({ ...newEpaper, title: e.target.value })}
-                placeholder="उदा: नवभारत संवाद - 15 जानेवारी 2024"
+                placeholder="उदा: नव मंच - 15 जानेवारी 2024"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-gray-900"
               />
             </div>
