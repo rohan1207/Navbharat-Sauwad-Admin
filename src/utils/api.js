@@ -31,11 +31,44 @@ export const apiFetch = async (endpoint, options = {}) => {
   };
 
   const path = endpoint && endpoint.startsWith('/') ? endpoint : `/${endpoint}`;
-  const res = await fetch(`${API_BASE}${path}`, { 
-    ...options, 
-    headers,
-    body: body || options.body
-  });
+  
+  // Use longer timeout for file uploads (FormData), shorter for regular requests
+  // Allow custom timeout via options.timeout (in milliseconds)
+  const defaultTimeout = isFormData ? 120000 : 30000; // 2 minutes for uploads, 30 seconds for regular requests
+  const timeout = options.timeout !== undefined ? options.timeout : defaultTimeout;
+  
+  // Remove timeout from options to avoid passing it to fetch
+  const { timeout: _, ...fetchOptions } = options;
+  
+  let res;
+  try {
+    res = await fetch(`${API_BASE}${path}`, { 
+      ...fetchOptions, 
+      headers,
+      body: body || options.body,
+      signal: AbortSignal.timeout(timeout)
+    });
+  } catch (fetchError) {
+    // Handle network errors (connection refused, etc.)
+    console.error('Network error:', fetchError);
+    let errorMessage = 'Network error: Could not connect to server.';
+    
+    if (fetchError.name === 'AbortError' || fetchError.name === 'TimeoutError') {
+      if (isFormData) {
+        errorMessage = 'Upload timeout: The file upload is taking too long. This may happen with very large images. Please try uploading smaller files or check your internet connection.';
+      } else {
+        errorMessage = 'Request timeout: Server is not responding. Please check if the backend server is running.';
+      }
+    } else if (fetchError.message?.includes('Failed to fetch') || fetchError.message?.includes('ERR_CONNECTION_REFUSED')) {
+      errorMessage = 'Connection refused: Backend server is not running. Please start the server with `npm run dev` in the backend directory.';
+    } else {
+      errorMessage = fetchError.message || errorMessage;
+    }
+    
+    const networkError = new Error(errorMessage);
+    networkError.isNetworkError = true;
+    throw networkError;
+  }
 
   if (!res.ok) {
     let body = null;

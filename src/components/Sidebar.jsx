@@ -10,27 +10,31 @@ import {
   FiLogOut,
   FiFileText,
   FiClipboard,
+  FiUsers,
+  FiImage,
+  FiSettings,
+  FiTag,
 } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 
-// Color constants for consistency
+// Color constants for consistency - Black/White theme
 const colors = {
   primary: {
-    DEFAULT: "#006D5B",
-    50: "#E6F4F1",
-    100: "#B6E2D3",
-    200: "#8AD1B9",
-    300: "#5DBF9E",
-    400: "#31AE83",
-    500: "#006D5B",
-    600: "#005A4B",
-    700: "#00463B",
-    800: "#00332B",
-    900: "#00201A"
+    DEFAULT: "#000000",
+    50: "#F9FAFB",
+    100: "#F3F4F6",
+    200: "#E5E7EB",
+    300: "#D1D5DB",
+    400: "#9CA3AF",
+    500: "#6B7280",
+    600: "#4B5563",
+    700: "#374151",
+    800: "#1F2937",
+    900: "#111827"
   },
-  background: "#F8FAF9",
+  background: "#FFFFFF",
   text: {
-    primary: "#1A1A1A",
+    primary: "#000000",
     secondary: "#4B5563",
     light: "#6B7280"
   }
@@ -38,13 +42,17 @@ const colors = {
 
 const links = [
   { to: "/admin", label: "Dashboard", icon: <FiHome /> },
+  { to: "/admin/articles", label: "लेख व्यवस्थापन", icon: <FiBookOpen /> },
+  { to: "/admin/categories", label: "श्रेणी व्यवस्थापन", icon: <FiTag /> },
+  { to: "/admin/authors", label: "लेखक व्यवस्थापन", icon: <FiUsers /> },
+  { to: "/admin/media", label: "मीडिया लायब्ररी", icon: <FiImage /> },
   { to: "/admin/epaper", label: "ई-पेपर व्यवस्थापन", icon: <FiFileText /> },
-  
+  { to: "/admin/epaper2", label: "ई-पेपर व्यवस्थापन 2", icon: <FiFileText /> },
+  { to: "/admin/settings", label: "सेटिंग्ज", icon: <FiSettings /> },
 ];
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const username = localStorage.getItem("adminUsername");
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -52,6 +60,8 @@ const Sidebar = () => {
     localStorage.removeItem("adminUsername");
     navigate("/admin/login");
   };
+
+  const displayName = "Admin Panel";
 
   const sidebarVariants = {
     open: {
@@ -69,13 +79,13 @@ const Sidebar = () => {
       {/* Mobile Menu Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="lg:hidden fixed top-6 left-6 z-20 p-3 rounded-full bg-white shadow-lg hover:bg-gray-50 transition-all duration-300 hover:shadow-xl"
+        className="lg:hidden fixed top-6 left-6 z-20 p-3 rounded-full bg-gray-900 shadow-lg hover:bg-black transition-all duration-300 hover:shadow-xl"
         style={{
-          backgroundColor: 'white',
-          boxShadow: '0 4px 20px rgba(0, 109, 91, 0.15)'
+          backgroundColor: '#111827',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)'
         }}
       >
-        <FiMenu className="w-6 h-6" style={{ color: colors.primary[500] }} />
+        <FiMenu className="w-6 h-6 text-white" />
       </button>
 
       <AnimatePresence>
@@ -92,38 +102,39 @@ const Sidebar = () => {
 
         {/* Sidebar for Desktop */}
         <aside 
-          className="hidden lg:flex flex-col w-[300px] bg-white shadow-xl transition-all duration-300"
+          className="hidden lg:flex flex-col w-[300px] bg-gray-900 shadow-xl transition-all duration-300"
           style={{
-            backgroundColor: 'white',
-            boxShadow: '4px 0 20px rgba(0, 0, 0, 0.05)'
+            backgroundColor: '#111827',
+            boxShadow: '4px 0 20px rgba(0, 0, 0, 0.3)'
           }}
         >
           {/* Desktop Header */}
           <div 
             className="flex items-center justify-between p-6 border-b"
             style={{
-              borderColor: 'rgba(0, 109, 91, 0.1)'
+              borderColor: 'rgba(255, 255, 255, 0.1)'
             }}
           >
             <div className="flex items-center space-x-4">
               <div 
-                className="w-12 h-12 rounded-full flex items-center justify-center"
+                className="w-12 h-12 rounded-full flex items-center justify-center bg-white"
                 style={{
-                  background: 'orange',
-                  boxShadow: '0 4px 12px rgba(0, 109, 91, 0.2)'
+                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
                 }}
               >
-                <span className="text-white font-bold text-xl">
-                  {username?.[0]?.toUpperCase() || "A"}
+                <span className="text-gray-900 font-bold text-xl">
+                  A
                 </span>
               </div>
               <div>
-                <h2 className="font-bold text-lg text-gray-900">
-                  {username || "Admin"}
+                <h2 className="font-bold text-lg text-white">
+                  {displayName}
                 </h2>
-                <p className="text-sm" style={{ color: colors.primary[500] }}>
-                  नवभारत संवाद
-
+                <p className="text-sm text-gray-400">
+                  NAV MANCH
+                </p>
+                <p className="text-xs text-gray-500 mt-0.5">
+                  PRGI: MHMAR/25/A4153
                 </p>
               </div>
             </div>
@@ -139,8 +150,8 @@ const Sidebar = () => {
                     `flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all duration-200
                     ${
                       isActive
-                        ? 'bg-gradient-to-r from-red-600 via-orange-500 to-yellow-500 text-white shadow-sm [&_span]:text-white'
-                        : 'text-gray-600 hover:bg-gradient-to-r hover:from-red-50 hover:via-orange-50 hover:to-yellow-50 [&_span]:text-orange-600'
+                        ? 'bg-white text-gray-900 shadow-sm'
+                        : 'text-gray-300 hover:bg-gray-800 hover:text-white'
                     }`
                   }
                   style={{
@@ -156,11 +167,8 @@ const Sidebar = () => {
             </div>
             <button
               onClick={handleLogout}
-              className="flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 mt-4"
+              className="flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 mt-4 border border-gray-700 text-gray-300 hover:bg-gray-800 hover:text-white"
               style={{
-                color: colors.primary[500],
-                backgroundColor: 'transparent',
-                border: `1px solid ${colors.primary[100]}`,
                 margin: '1rem 0.5rem',
                 fontWeight: 500
               }}
@@ -175,16 +183,13 @@ const Sidebar = () => {
           <div 
             className="p-4 border-t"
             style={{
-              borderColor: 'rgba(0, 109, 91, 0.1)'
+              borderColor: 'rgba(255, 255, 255, 0.1)'
             }}
           >
-            <p 
-              className="text-xs text-center"
-              style={{ color: colors.text.secondary }}
-            >
-              नवभारत संवाद
- © 2025
-            </p>
+            <div className="text-xs text-center text-gray-400 space-y-1">
+              <p>NAV MANCH © 2025</p>
+              <p className="text-[10px] text-gray-500">PRGI: MHMAR/25/A4153</p>
+            </div>
           </div>
         </aside>
 
@@ -194,37 +199,39 @@ const Sidebar = () => {
           animate={isOpen ? "open" : "closed"}
           exit="closed"
           variants={sidebarVariants}
-          className="lg:hidden fixed inset-y-0 left-0 w-full sm:w-80 bg-white shadow-2xl flex flex-col z-40"
+          className="lg:hidden fixed inset-y-0 left-0 w-full sm:w-80 bg-gray-900 shadow-2xl flex flex-col z-40"
           style={{
-            backgroundColor: 'white',
-            boxShadow: '8px 0 30px rgba(0, 0, 0, 0.1)'
+            backgroundColor: '#111827',
+            boxShadow: '8px 0 30px rgba(0, 0, 0, 0.3)'
           }}
         >
           {/* Header */}
           <div 
             className="flex items-center justify-between p-6 border-b"
             style={{
-              borderColor: 'rgba(0, 109, 91, 0.1)'
+              borderColor: 'rgba(255, 255, 255, 0.1)'
             }}
           >
             <div className="flex items-center space-x-4">
               <div 
-                className="w-12 h-12 rounded-full flex items-center justify-center"
+                className="w-12 h-12 rounded-full flex items-center justify-center bg-white"
                 style={{
-                  background: 'linear-gradient(135deg, #006D5B 0%, #004B3F 100%)',
-                  boxShadow: '0 4px 12px rgba(0, 109, 91, 0.2)'
+                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
                 }}
               >
-                <span className="text-white font-bold text-xl">
-                  {username?.[0]?.toUpperCase() || "A"}
+                <span className="text-gray-900 font-bold text-xl">
+                  A
                 </span>
               </div>
               <div>
-                <h2 className="font-bold text-lg text-gray-900">
-                  {username || "Admin"}
+                <h2 className="font-bold text-lg text-white">
+                  {displayName}
                 </h2>
-                <p className="text-sm" style={{ color: colors.primary[500] }}>
-                  Administrator
+                <p className="text-sm text-gray-400">
+                  NAV MANCH
+                </p>
+                <p className="text-xs text-gray-500 mt-0.5">
+                  PRGI: MHMAR/25/A4153
                 </p>
               </div>
             </div>
@@ -232,11 +239,7 @@ const Sidebar = () => {
             {/* Close button for mobile */}
             <button
               onClick={() => setIsOpen(false)}
-              className="lg:hidden p-2 rounded-full hover:bg-gray-50 transition-colors"
-              style={{
-                color: colors.primary[500],
-                border: `1px solid ${colors.primary[100]}`
-              }}
+              className="lg:hidden p-2 rounded-full hover:bg-gray-800 transition-colors text-white border border-gray-700"
             >
               <FiX className="w-5 h-5" />
             </button>
@@ -254,21 +257,15 @@ const Sidebar = () => {
                     `flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-all duration-200
                     ${
                       isActive
-                        ? 'bg-gradient-to-r from-red-600 via-orange-500 to-yellow-500 text-white shadow-sm'
-                        : 'text-gray-600 hover:bg-gradient-to-r hover:from-red-50 hover:via-orange-50 hover:to-yellow-50'
+                        ? 'bg-white text-gray-900 shadow-sm'
+                        : 'text-gray-300 hover:bg-gray-800 hover:text-white'
                     }`
                   }
                   style={{
-                    margin: '0.25rem 0',
-                    color: colors.text.secondary
+                    margin: '0.25rem 0'
                   }}
                 >
-                  <span 
-                    className="text-xl"
-                    style={{
-                      color: colors.primary[500]
-                    }}
-                  >
+                  <span className="text-xl">
                     {l.icon}
                   </span>
                   <span className="text-sm font-medium">{l.label}</span>
@@ -278,11 +275,8 @@ const Sidebar = () => {
             {/* Logout Button for Mobile */}
             <button
               onClick={handleLogout}
-              className="flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-medium transition-all duration-200 mt-4"
+              className="flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-medium transition-all duration-200 mt-4 border border-gray-700 text-gray-300 hover:bg-gray-800 hover:text-white"
               style={{
-                color: colors.primary[500],
-                backgroundColor: 'transparent',
-                border: `1px solid ${colors.primary[100]}`,
                 margin: '1rem 0.5rem',
                 fontWeight: 500
               }}
@@ -295,10 +289,11 @@ const Sidebar = () => {
           </nav>
 
           {/* Footer */}
-          <div className="p-4 border-t dark:border-gray-700">
-            <p className="text-xs text-center text-gray-500 dark:text-gray-400">
-              Aagaur Admin © 2025
-            </p>
+          <div className="p-4 border-t" style={{ borderColor: 'rgba(255, 255, 255, 0.1)' }}>
+            <div className="text-xs text-center text-gray-400 space-y-1">
+              <p>NAV MANCH © 2025</p>
+              <p className="text-[10px] text-gray-500">PRGI: MHMAR/25/A4153</p>
+            </div>
           </div>
         </motion.aside>
       </AnimatePresence>

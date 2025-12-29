@@ -170,7 +170,7 @@ const EPaperManagement = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8">
+    <div className="min-h-screen bg-white p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">ई-पेपर व्यवस्थापन</h1>
@@ -191,7 +191,7 @@ const EPaperManagement = () => {
                 value={newEpaper.title}
                 onChange={(e) => setNewEpaper({ ...newEpaper, title: e.target.value })}
                 placeholder="उदा: नवभारत संवाद - 15 जानेवारी 2024"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-gray-900"
               />
             </div>
 
@@ -203,7 +203,7 @@ const EPaperManagement = () => {
                 type="date"
                 value={newEpaper.date}
                 onChange={(e) => setNewEpaper({ ...newEpaper, date: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-gray-900"
               />
             </div>
 
@@ -212,7 +212,7 @@ const EPaperManagement = () => {
                 PDF फाइल
               </label>
               <div className="flex items-center space-x-4">
-                <label className="flex items-center justify-center px-6 py-3 bg-gradient-to-r from-red-600 via-orange-500 to-yellow-500 text-white rounded-lg cursor-pointer hover:opacity-90 transition-opacity">
+                <label className="flex items-center justify-center px-6 py-3 bg-gray-900 text-white rounded-lg cursor-pointer hover:bg-black transition-colors">
                   <FiUpload className="mr-2" />
                   PDF निवडा
                   <input
@@ -229,7 +229,7 @@ const EPaperManagement = () => {
                     <span>{newEpaper.pdfFile.name}</span>
                     <button
                       onClick={() => setNewEpaper({ ...newEpaper, pdfFile: null })}
-                      className="text-red-600 hover:text-red-700"
+                      className="text-gray-900 hover:text-black"
                     >
                       <FiX />
                     </button>
@@ -241,7 +241,7 @@ const EPaperManagement = () => {
             <button
               onClick={handleUpload}
               disabled={uploading}
-              className="w-full bg-gradient-to-r from-red-600 via-orange-500 to-yellow-500 text-white py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-gray-900 text-white py-3 rounded-lg font-semibold hover:bg-black transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {uploading ? 'अपलोड होत आहे...' : 'PDF अपलोड करा आणि रूपांतर करा'}
             </button>
@@ -285,14 +285,14 @@ const EPaperManagement = () => {
                   <div className="flex space-x-2">
                     <button
                       onClick={() => handleEditMapping(epaper)}
-                      className="flex-1 flex items-center justify-center space-x-2 bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700 transition-colors text-sm"
+                      className="flex-1 flex items-center justify-center space-x-2 bg-gray-900 text-white px-4 py-2 rounded hover:bg-black transition-colors text-sm"
                     >
                       <FiEdit2 />
                       <span>ई-मॅपिंग</span>
                     </button>
                     <button
                       onClick={() => handleDelete(epaper.id)}
-                      className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+                      className="px-4 py-2 bg-gray-900 text-white rounded hover:bg-black transition-colors"
                     >
                       <FiX />
                     </button>

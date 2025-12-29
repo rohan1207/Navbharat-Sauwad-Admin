@@ -6,9 +6,9 @@ import Sidebar from './components/Sidebar';
 
 const Layout = () => {
   return (
-    <div className="flex min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-50">
+    <div className="flex min-h-screen bg-gray-100 text-gray-900">
       <Sidebar />
-      <main className="flex-1 p-4 overflow-y-auto">
+      <main className="flex-1 p-6 overflow-y-auto bg-white">
         <Outlet />
       </main>
       <ToastContainer

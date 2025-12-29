@@ -191,7 +191,7 @@ const EMappingInterface = ({ epaper, onSave, onCancel }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4">
+    <div className="min-h-screen bg-white p-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="bg-white rounded-lg shadow-md p-4 mb-4 flex items-center justify-between">
@@ -213,7 +213,7 @@ const EMappingInterface = ({ epaper, onSave, onCancel }) => {
                 onSave(localEpaper);
                 toast.success('सर्व मॅपिंग सेव्ह केले!');
               }}
-              className="px-4 py-2 bg-gradient-to-r from-red-600 via-orange-500 to-yellow-500 text-white rounded-lg hover:opacity-90 transition-opacity flex items-center space-x-2"
+              className="px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-black transition-colors flex items-center space-x-2"
             >
               <FiSave />
               <span>सेव्ह करा</span>
@@ -272,7 +272,7 @@ const EMappingInterface = ({ epaper, onSave, onCancel }) => {
                   return (
                     <div
                       key={`news-${newsItem.id || Date.now()}-${newsItem.x}-${newsItem.y}`}
-                      className="absolute border-2 border-orange-500 bg-orange-500 bg-opacity-20 hover:bg-opacity-30 transition-all cursor-pointer group"
+                      className="absolute border-2 border-gray-900 bg-gray-900 bg-opacity-20 hover:bg-opacity-30 transition-all cursor-pointer group"
                       style={{
                         left: `${coords.left}px`,
                         top: `${coords.top}px`,
@@ -281,7 +281,7 @@ const EMappingInterface = ({ epaper, onSave, onCancel }) => {
                       }}
                       title={newsItem.title}
                     >
-                      <div className="absolute -top-8 left-0 bg-orange-600 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                      <div className="absolute -top-8 left-0 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
                         {newsItem.title}
                       </div>
                       <div className="absolute top-1 right-1 flex space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -299,7 +299,7 @@ const EMappingInterface = ({ epaper, onSave, onCancel }) => {
                             e.stopPropagation();
                             handleDeleteArea(newsItem.id);
                           }}
-                          className="bg-red-600 text-white p-1 rounded text-xs"
+                          className="bg-gray-900 text-white p-1 rounded text-xs hover:bg-black"
                         >
                           <FiTrash2 />
                         </button>
@@ -328,8 +328,8 @@ const EMappingInterface = ({ epaper, onSave, onCancel }) => {
                 )}
               </div>
 
-              <div className="mt-4 p-3 bg-blue-50 rounded-lg">
-                <p className="text-sm text-blue-800">
+              <div className="mt-4 p-3 bg-gray-100 rounded-lg">
+                <p className="text-sm text-gray-800">
                   <strong>सूचना:</strong> पृष्ठावर ड्रॅग करून आयताकृती क्षेत्र निवडा. निवडलेल्या क्षेत्राशी बातमी जोडा.
                 </p>
               </div>
@@ -369,7 +369,7 @@ const EMappingInterface = ({ epaper, onSave, onCancel }) => {
                         </button>
                         <button
                           onClick={() => handleDeleteArea(newsItem.id)}
-                          className="text-xs bg-red-100 text-red-700 px-2 py-1 rounded hover:bg-red-200"
+                          className="text-xs bg-gray-100 text-gray-900 px-2 py-1 rounded hover:bg-gray-200"
                         >
                           <FiTrash2 />
                         </button>
@@ -464,7 +464,7 @@ const ArticleFormModal = ({ area, existingArticle, newsArticles, onSave, onCance
                 type="text"
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
                 placeholder="बातमीचे शीर्षक"
                 required
               />
@@ -478,7 +478,7 @@ const ArticleFormModal = ({ area, existingArticle, newsArticles, onSave, onCance
                 value={formData.content}
                 onChange={(e) => setFormData({ ...formData, content: e.target.value })}
                 rows={6}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
                 placeholder="बातमीची सामग्री"
                 required
               />
@@ -492,7 +492,7 @@ const ArticleFormModal = ({ area, existingArticle, newsArticles, onSave, onCance
                 type="text"
                 value={formData.articleId}
                 onChange={(e) => setFormData({ ...formData, articleId: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
                 placeholder="अस्तित्वातील बातमीशी जोडण्यासाठी ID"
               />
             </div>
@@ -509,7 +509,7 @@ const ArticleFormModal = ({ area, existingArticle, newsArticles, onSave, onCance
             <div className="flex space-x-3 pt-4">
               <button
                 type="submit"
-                className="flex-1 bg-gradient-to-r from-red-600 via-orange-500 to-yellow-500 text-white py-2 rounded-lg font-semibold hover:opacity-90 transition-opacity"
+                className="flex-1 bg-gray-900 text-white py-2 rounded-lg font-semibold hover:bg-black transition-colors"
               >
                 सेव्ह करा
               </button>

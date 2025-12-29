@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
+import { WebSocketProvider } from "./context/WebSocketContext";
 import MobileMessage from "./components/MobileMessage";
 
 // Admin imports
@@ -8,11 +9,19 @@ import Login from "./pages/Login";
 import Layout from "./Layout";
 import RequireAuth from "./RequireAuth";
 import Dashboard from "./pages/Dashboard";
+import ArticlesList from "./pages/ArticlesList";
+import ArticleForm from "./pages/ArticleForm";
+import CategoriesManagement from "./pages/CategoriesManagement";
+import AuthorsManagement from "./pages/AuthorsManagement";
+import MediaLibrary from "./pages/MediaLibrary";
 import EPaperManagement from "./pages/EPaperManagement";
+import EPaperManagement2 from "./pages/EPaperManagement2";
+import Settings from "./pages/Settings";
 
 const App = () => {
   return (
     <AuthProvider>
+      <WebSocketProvider>
         <MobileMessage />
         <React.Suspense
           fallback={<div className="p-6 text-center">Loading admin...</div>}
@@ -34,13 +43,22 @@ const App = () => {
               }
             >
               <Route index element={<Dashboard />} />
+              <Route path="articles" element={<ArticlesList />} />
+              <Route path="articles/create" element={<ArticleForm />} />
+              <Route path="articles/edit/:id" element={<ArticleForm />} />
+              <Route path="categories" element={<CategoriesManagement />} />
+              <Route path="authors" element={<AuthorsManagement />} />
+              <Route path="media" element={<MediaLibrary />} />
               <Route path="epaper" element={<EPaperManagement />} />
+              <Route path="epaper2" element={<EPaperManagement2 />} />
+              <Route path="settings" element={<Settings />} />
             </Route>
 
             {/* Catch all other routes */}
             <Route path="*" element={<Navigate to="/admin" replace />} />
           </Routes>
         </React.Suspense>
+      </WebSocketProvider>
     </AuthProvider>
   );
 };
