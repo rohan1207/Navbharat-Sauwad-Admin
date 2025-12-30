@@ -420,7 +420,7 @@ const EPaperManagement2 = () => {
     <div className="min-h-screen bg-white p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">ई-पेपर व्यवस्थापन 2 (सरलीकृत)</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">ई-पेपर व्यवस्थापन </h1>
           <p className="text-gray-600">PDF अपलोड करा आणि सरलीकृत ई-मॅपिंग सेट करा</p>
           <p className="text-sm text-blue-600 mt-2">✨ फक्त ड्रॅग करा - स्वयंचलित सेव्ह होईल</p>
         </div>

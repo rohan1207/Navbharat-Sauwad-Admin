@@ -14,6 +14,8 @@ import {
   FiImage,
   FiSettings,
   FiTag,
+  FiCamera,
+  FiVideo,
 } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -46,8 +48,10 @@ const links = [
   { to: "/admin/categories", label: "श्रेणी व्यवस्थापन", icon: <FiTag /> },
   { to: "/admin/authors", label: "लेखक व्यवस्थापन", icon: <FiUsers /> },
   { to: "/admin/media", label: "मीडिया लायब्ररी", icon: <FiImage /> },
-  { to: "/admin/epaper", label: "ई-पेपर व्यवस्थापन", icon: <FiFileText /> },
-  { to: "/admin/epaper2", label: "ई-पेपर व्यवस्थापन 2", icon: <FiFileText /> },
+  { to: "/admin/epaper2", label: "ई-पेपर व्यवस्थापन", icon: <FiFileText /> },
+  { to: "/admin/ads", label: "जाहिरात व्यवस्थापन", icon: <FiImage /> },
+  { to: "/admin/photo-of-the-day", label: "आजचे फोटो", icon: <FiCamera /> },
+  { to: "/admin/shorts", label: "YouTube Shorts", icon: <FiVideo /> },
   { to: "/admin/settings", label: "सेटिंग्ज", icon: <FiSettings /> },
 ];
 

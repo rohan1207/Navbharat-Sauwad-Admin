@@ -193,7 +193,7 @@ const Dashboard = () => {
             <span className="font-medium">मीडिया लायब्ररी</span>
           </Link>
           <Link
-            to="/admin/epaper"
+            to="/admin/epaper2"
             className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
           >
             <FiFile className="w-5 h-5 text-purple-600" />

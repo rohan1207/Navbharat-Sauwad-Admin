@@ -14,8 +14,10 @@ import ArticleForm from "./pages/ArticleForm";
 import CategoriesManagement from "./pages/CategoriesManagement";
 import AuthorsManagement from "./pages/AuthorsManagement";
 import MediaLibrary from "./pages/MediaLibrary";
-import EPaperManagement from "./pages/EPaperManagement";
 import EPaperManagement2 from "./pages/EPaperManagement2";
+import AdManagement from "./pages/AdManagement";
+import PhotoOfTheDayManagement from "./pages/PhotoOfTheDayManagement";
+import ShortsManagement from "./pages/ShortsManagement";
 import Settings from "./pages/Settings";
 
 const App = () => {
@@ -49,8 +51,10 @@ const App = () => {
               <Route path="categories" element={<CategoriesManagement />} />
               <Route path="authors" element={<AuthorsManagement />} />
               <Route path="media" element={<MediaLibrary />} />
-              <Route path="epaper" element={<EPaperManagement />} />
               <Route path="epaper2" element={<EPaperManagement2 />} />
+              <Route path="ads" element={<AdManagement />} />
+              <Route path="photo-of-the-day" element={<PhotoOfTheDayManagement />} />
+              <Route path="shorts" element={<ShortsManagement />} />
               <Route path="settings" element={<Settings />} />
             </Route>
 

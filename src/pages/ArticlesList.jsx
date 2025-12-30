@@ -232,7 +232,10 @@ const ArticlesList = () => {
                               {article.title}
                             </Link>
                             <p className="text-sm text-gray-500 line-clamp-1 mt-1">
-                              {article.summary}
+                              {(article.summary && article.summary.trim()) ||
+                                (article.content
+                                  ? article.content.replace(/<[^>]+>/g, ' ').slice(0, 140)
+                                  : '')}
                             </p>
                           </div>
                         </div>

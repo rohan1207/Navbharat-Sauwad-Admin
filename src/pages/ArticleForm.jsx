@@ -23,8 +23,6 @@ const ArticleForm = () => {
   const [formData, setFormData] = useState({
     title: '',
     titleEn: '',
-    subtitle: '',
-    summary: '',
     content: '',
     categoryId: '',
     subCategoryId: '',
@@ -102,8 +100,6 @@ const ArticleForm = () => {
         setFormData({
           title: data.title || '',
           titleEn: data.titleEn || '',
-          subtitle: data.subtitle || '',
-          summary: data.summary || '',
           content: data.content || '',
           categoryId: getFieldId(data.categoryId) || '',
           subCategoryId: getFieldId(data.subCategoryId) || '',
@@ -170,8 +166,6 @@ const ArticleForm = () => {
       const payload = {
         title: formData.title,
         titleEn: formData.titleEn || undefined,
-        subtitle: formData.subtitle || undefined,
-        summary: formData.summary,
         content: formData.content,
         categoryId: formData.categoryId || undefined,
         subCategoryId: formData.subCategoryId || undefined,
@@ -284,35 +278,6 @@ const ArticleForm = () => {
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent"
                 placeholder="लेखाचे शीर्षक प्रविष्ट करा"
-                required
-              />
-            </div>
-
-            {/* Subtitle */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                उपशीर्षक
-              </label>
-              <input
-                type="text"
-                value={formData.subtitle}
-                onChange={(e) => setFormData({ ...formData, subtitle: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent"
-                placeholder="लेखाचे उपशीर्षक प्रविष्ट करा"
-              />
-            </div>
-
-            {/* Summary */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                सारांश *
-              </label>
-              <textarea
-                value={formData.summary}
-                onChange={(e) => setFormData({ ...formData, summary: e.target.value })}
-                rows={3}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent"
-                placeholder="लेखाचा संक्षिप्त सारांश"
                 required
               />
             </div>
