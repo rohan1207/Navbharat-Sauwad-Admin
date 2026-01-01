@@ -45,7 +45,7 @@ const Login = () => {
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
               नव मंच
             </h1>
-            <p className="text-gray-600">अॅडमिन पॅनेल</p>
+            <p className="text-gray-600">प्रशासन पॅनल लॉगिन</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -81,17 +81,13 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-red-600 via-orange-500 to-yellow-500 text-white py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-black text-white py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? 'लॉगिन होत आहे...' : 'लॉगिन करा'}
             </button>
           </form>
 
-          <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-            <p className="text-xs text-blue-800 text-center">
-              <strong>Demo:</strong> वापरकर्तानाव: <code>admin</code>, पासवर्ड: <code>admin123</code>
-            </p>
-          </div>
+          
         </div>
       </div>
       <ToastContainer

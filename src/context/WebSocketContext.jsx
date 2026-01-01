@@ -50,7 +50,7 @@ export const WebSocketProvider = ({ children }) => {
       reconnection: true,
       reconnectionAttempts: maxReconnectAttempts,
       reconnectionDelay: 1000,
-      timeout: 5000,
+      timeout: 5001,
       // Don't show errors if connection fails - it's optional
       autoConnect: true,
     });

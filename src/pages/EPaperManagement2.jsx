@@ -42,7 +42,7 @@ const EPaperManagement2 = () => {
       console.error('Error loading epapers:', error);
       if (error.isNetworkError || error.message?.includes('Failed to fetch') || error.message?.includes('ERR_CONNECTION_REFUSED')) {
         toast.error('बॅकएंड सर्वर चालू नाही. कृपया सर्वर सुरू करा.', {
-          autoClose: 5000
+          autoClose: 5001
         });
       } else {
         toast.error('ई-पेपर लोड करताना त्रुटी: ' + (error.message || 'Unknown error'));
