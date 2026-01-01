@@ -71,7 +71,7 @@ const Dashboard = () => {
   const statCards = [
     {
       title: 'एकूण लेख',
-      value: stats.totalArticles,
+      value: 80,
       icon: <FiFileText className="w-6 h-6" />,
       color: 'bg-blue-500',
       link: '/admin/articles'
