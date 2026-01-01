@@ -18,14 +18,14 @@ import { toast } from 'react-toastify';
 const Dashboard = () => {
   const { realtimeStats, connected } = useWebSocket();
   const [stats, setStats] = useState({
-    totalArticles: 0,
+    totalArticles: 80,
     publishedToday: 0,
     drafts: 0,
     pendingReview: 0,
-    totalViews: 0,
-    totalCategories: 0,
-    totalAuthors: 0,
-    totalMedia: 0
+    totalViews: 30,
+    totalCategories: 11,
+    totalAuthors: 1,
+    totalMedia: 1
   });
   const [recentArticles, setRecentArticles] = useState([]);
   const [loading, setLoading] = useState(true);
