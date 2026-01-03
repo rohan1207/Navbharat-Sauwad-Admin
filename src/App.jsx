@@ -18,6 +18,7 @@ import EPaperManagement2 from "./pages/EPaperManagement2";
 import AdManagement from "./pages/AdManagement";
 import PhotoOfTheDayManagement from "./pages/PhotoOfTheDayManagement";
 import ShortsManagement from "./pages/ShortsManagement";
+import SubscribersList from "./pages/SubscribersList";
 import Settings from "./pages/Settings";
 
 const App = () => {
@@ -55,6 +56,7 @@ const App = () => {
               <Route path="ads" element={<AdManagement />} />
               <Route path="photo-of-the-day" element={<PhotoOfTheDayManagement />} />
               <Route path="shorts" element={<ShortsManagement />} />
+              <Route path="subscribers" element={<SubscribersList />} />
               <Route path="settings" element={<Settings />} />
             </Route>
 

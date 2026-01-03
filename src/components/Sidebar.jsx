@@ -16,6 +16,7 @@ import {
   FiTag,
   FiCamera,
   FiVideo,
+  FiMail,
 } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -52,6 +53,7 @@ const links = [
   { to: "/admin/ads", label: "जाहिरात व्यवस्थापन", icon: <FiImage /> },
   { to: "/admin/photo-of-the-day", label: "आजचे फोटो", icon: <FiCamera /> },
   { to: "/admin/shorts", label: "YouTube Shorts", icon: <FiVideo /> },
+  { to: "/admin/subscribers", label: "सबस्क्रायबर", icon: <FiMail /> },
   { to: "/admin/settings", label: "सेटिंग्ज", icon: <FiSettings /> },
 ];
 

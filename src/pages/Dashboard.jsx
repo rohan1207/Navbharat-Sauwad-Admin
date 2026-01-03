@@ -18,15 +18,22 @@ import { toast } from 'react-toastify';
 const Dashboard = () => {
   const { realtimeStats, connected } = useWebSocket();
   const [stats, setStats] = useState({
-    totalArticles: 80,
+    totalArticles: 0,
     publishedToday: 0,
     drafts: 0,
     pendingReview: 0,
-    totalViews: 30,
-    totalCategories: 11,
-    totalAuthors: 1,
-    totalMedia: 1
+    totalViews: 0,
+    totalCategories: 0,
+    totalAuthors: 0,
+    totalMedia: 0,
+    totalSubscribers: 0,
+    totalEpaper: 0
   });
+  
+  // Debug: Log stats changes
+  useEffect(() => {
+    console.log('Stats state updated:', stats);
+  }, [stats]);
   const [recentArticles, setRecentArticles] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -34,26 +41,97 @@ const Dashboard = () => {
     fetchDashboardData();
   }, []);
 
-  // Update stats when realtime stats change
+  // Update stats when realtime stats change (but don't overwrite fetched stats with empty/undefined values)
   useEffect(() => {
-    if (realtimeStats && Object.keys(realtimeStats).length > 0) {
-      setStats(prev => ({ ...prev, ...realtimeStats }));
+    // Only update if realtimeStats has meaningful data and we already have initial stats loaded
+    // Check if we have initial data by checking if totalCategories is set (it's always > 0 if data loaded)
+    if (realtimeStats && Object.keys(realtimeStats).length > 0 && stats.totalCategories > 0) {
+      setStats(prev => {
+        // Only update fields that exist in realtimeStats and are not undefined/null
+        // This prevents overwriting fetched stats with empty realtime updates
+        const updated = { ...prev };
+        let hasValidUpdates = false;
+        
+        Object.keys(realtimeStats).forEach(key => {
+          const value = realtimeStats[key];
+          // Only update if value is a valid number (not undefined, null, or empty)
+          if (value !== undefined && value !== null && value !== '' && typeof value === 'number') {
+            updated[key] = value;
+            hasValidUpdates = true;
+          }
+        });
+        
+        // Only update state if we have valid updates
+        if (hasValidUpdates) {
+          console.log('Realtime stats update:', { realtimeStats, updated });
+          return updated;
+        }
+        return prev; // Return previous state if no valid updates
+      });
     }
-  }, [realtimeStats]);
+  }, [realtimeStats, stats.totalCategories]);
 
   const fetchDashboardData = async () => {
     try {
       setLoading(true);
-      // Fetch stats
+      
+      // Fetch stats from admin API
       const statsData = await apiFetch('/admin/stats');
+      console.log('Stats API Response:', statsData); // Debug log
+      
       if (statsData) {
-        setStats(statsData);
+        // Ensure all values are numbers, not undefined
+        const processedStats = {
+          totalArticles: statsData.totalArticles !== undefined ? Number(statsData.totalArticles) : 0,
+          publishedToday: statsData.publishedToday !== undefined ? Number(statsData.publishedToday) : 0,
+          drafts: statsData.drafts !== undefined ? Number(statsData.drafts) : 0,
+          pendingReview: statsData.pendingReview !== undefined ? Number(statsData.pendingReview) : 0,
+          totalViews: statsData.totalViews !== undefined ? Number(statsData.totalViews) : 0,
+          totalCategories: statsData.totalCategories !== undefined ? Number(statsData.totalCategories) : 0,
+          totalAuthors: statsData.totalAuthors !== undefined ? Number(statsData.totalAuthors) : 0,
+          totalMedia: statsData.totalMedia !== undefined ? Number(statsData.totalMedia) : 0,
+          totalSubscribers: statsData.totalSubscribers !== undefined ? Number(statsData.totalSubscribers) : 0,
+          totalEpaper: statsData.totalEpaper !== undefined ? Number(statsData.totalEpaper) : 0
+        };
+        console.log('Processed Stats:', processedStats); // Debug log
+        console.log('Setting stats with totalArticles:', processedStats.totalArticles);
+        // Use direct setState to ensure values are set correctly
+        setStats(processedStats);
+        console.log('Stats state should now be:', processedStats);
+      } else {
+        console.warn('No stats data received from API');
       }
       
-      // Merge with realtime stats if available
-      if (realtimeStats && Object.keys(realtimeStats).length > 0) {
-        setStats(prev => ({ ...prev, ...realtimeStats }));
+      // Stats API already includes subscribers and epapers if backend is updated
+      // If not available, fetch separately (fallback)
+      if (!statsData.totalSubscribers) {
+        try {
+          const subscribersData = await apiFetch('/subscribers?limit=1');
+          if (subscribersData && subscribersData.pagination) {
+            setStats(prev => ({ ...prev, totalSubscribers: subscribersData.pagination.total }));
+          } else if (Array.isArray(subscribersData)) {
+            setStats(prev => ({ ...prev, totalSubscribers: subscribersData.length }));
+          }
+        } catch (err) {
+          console.error('Error fetching subscribers count:', err);
+        }
       }
+      
+      if (!statsData.totalEpaper) {
+        try {
+          const epapersData = await apiFetch('/epapers');
+          if (epapersData && Array.isArray(epapersData)) {
+            setStats(prev => ({ ...prev, totalEpaper: epapersData.length }));
+          } else if (epapersData && epapersData.data && Array.isArray(epapersData.data)) {
+            setStats(prev => ({ ...prev, totalEpaper: epapersData.data.length }));
+          }
+        } catch (err) {
+          console.error('Error fetching epapers count:', err);
+        }
+      }
+      
+      // Merge with realtime stats if available (but don't overwrite fetched stats)
+      // This is handled by the useEffect hook above
 
       // Fetch recent articles
       const articlesData = await apiFetch('/admin/articles?limit=5&sort=createdAt:desc');
@@ -68,48 +146,70 @@ const Dashboard = () => {
     }
   };
 
+  // Create statCards array - this will re-render when stats change
   const statCards = [
     {
       title: 'एकूण लेख',
-      value: 80,
+      value: typeof stats.totalArticles === 'number' ? stats.totalArticles : 0,
       icon: <FiFileText className="w-6 h-6" />,
       color: 'bg-blue-500',
       link: '/admin/articles'
     },
     {
       title: 'आज प्रकाशित',
-      value: stats.publishedToday,
+      value: stats.publishedToday || 0,
       icon: <FiTrendingUp className="w-6 h-6" />,
       color: 'bg-green-500',
       link: '/admin/articles?status=published'
     },
     {
       title: 'ड्राफ्ट',
-      value: stats.drafts,
+      value: stats.drafts || 0,
       icon: <FiEdit className="w-6 h-6" />,
       color: 'bg-yellow-500',
       link: '/admin/articles?status=draft'
     },
     {
       title: 'एकूण दृश्ये',
-      value: stats.totalViews.toLocaleString('en-IN'),
+      value: (stats.totalViews || 0).toLocaleString('en-IN'),
       icon: <FiEye className="w-6 h-6" />,
       color: 'bg-purple-500',
       link: '/admin/articles'
     },
     {
       title: 'श्रेणी',
-      value: stats.totalCategories,
+      value: stats.totalCategories || 0,
       icon: <FiFileText className="w-6 h-6" />,
       color: 'bg-indigo-500',
       link: '/admin/categories'
     },
     {
       title: 'लेखक',
-      value: stats.totalAuthors,
+      value: stats.totalAuthors || 0,
       icon: <FiUsers className="w-6 h-6" />,
       color: 'bg-pink-500',
       link: '/admin/authors'
+    },
+    {
+      title: 'सबस्क्रायबर',
+      value: stats.totalSubscribers || 0,
+      icon: <FiUsers className="w-6 h-6" />,
+      color: 'bg-teal-500',
+      link: '/admin/subscribers'
+    },
+    {
+      title: 'ई-पेपर',
+      value: stats.totalEpaper || 0,
+      icon: <FiFile className="w-6 h-6" />,
+      color: 'bg-orange-500',
+      link: '/admin/epaper2'
+    },
+    {
+      title: 'मीडिया',
+      value: stats.totalMedia || 0,
+      icon: <FiImage className="w-6 h-6" />,
+      color: 'bg-cyan-500',
+      link: '/admin/media'
     }
   ];
 
