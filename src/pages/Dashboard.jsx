@@ -41,30 +41,52 @@ const Dashboard = () => {
     fetchDashboardData();
   }, []);
 
-  // Update stats when realtime stats change (but don't overwrite fetched stats with empty/undefined values)
+  // Update stats when realtime stats change (but don't overwrite fetched stats with empty/zero values)
   useEffect(() => {
     // Only update if realtimeStats has meaningful data and we already have initial stats loaded
     // Check if we have initial data by checking if totalCategories is set (it's always > 0 if data loaded)
     if (realtimeStats && Object.keys(realtimeStats).length > 0 && stats.totalCategories > 0) {
       setStats(prev => {
-        // Only update fields that exist in realtimeStats and are not undefined/null
-        // This prevents overwriting fetched stats with empty realtime updates
+        // Only update fields that exist in realtimeStats and are not undefined/null/zero
+        // This prevents overwriting fetched stats with empty/zero realtime updates
         const updated = { ...prev };
         let hasValidUpdates = false;
         
         Object.keys(realtimeStats).forEach(key => {
           const value = realtimeStats[key];
-          // Only update if value is a valid number (not undefined, null, or empty)
-          if (value !== undefined && value !== null && value !== '' && typeof value === 'number') {
-            updated[key] = value;
-            hasValidUpdates = true;
+          const currentValue = prev[key];
+          
+          // CRITICAL: Don't overwrite valid data with zeros!
+          // Only update if:
+          // 1. Value is a valid number (not undefined, null, or empty)
+          // 2. Value is greater than 0 (don't overwrite with 0)
+          // 3. OR if current value is 0 and new value is also 0 (both are 0, no harm)
+          if (
+            value !== undefined && 
+            value !== null && 
+            value !== '' && 
+            typeof value === 'number'
+          ) {
+            // Don't overwrite valid data (> 0) with zeros
+            if (value === 0 && currentValue > 0) {
+              console.log(`⚠️ Skipping realtime update for ${key}: trying to overwrite ${currentValue} with 0`);
+              return; // Skip this update - don't overwrite valid data
+            }
+            
+            // Only update if value is > 0 OR both are 0
+            if (value > 0 || (value === 0 && currentValue === 0)) {
+              updated[key] = value;
+              hasValidUpdates = true;
+            }
           }
         });
         
-        // Only update state if we have valid updates
+        // Only update state if we have valid updates that don't overwrite with zeros
         if (hasValidUpdates) {
-          console.log('Realtime stats update:', { realtimeStats, updated });
+          console.log('✅ Realtime stats update (valid):', { realtimeStats, updated });
           return updated;
+        } else {
+          console.log('⚠️ Realtime stats update skipped (would overwrite with zeros)');
         }
         return prev; // Return previous state if no valid updates
       });
