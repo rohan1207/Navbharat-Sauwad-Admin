@@ -8,6 +8,7 @@ const EPaperManagement2 = () => {
   const [epapers, setEpapers] = useState([]);
   const [selectedEpaper, setSelectedEpaper] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [loading, setLoading] = useState(true); // Add loading state
   const [showMapping, setShowMapping] = useState(false);
   const [uploadMode, setUploadMode] = useState('pdf'); // 'pdf' or 'pages'
   const [newEpaper, setNewEpaper] = useState({
@@ -34,12 +35,17 @@ const EPaperManagement2 = () => {
 
   const loadEpapers = async () => {
     try {
+      setLoading(true); // Set loading to true
       const data = await apiFetch('/epapers/all');
       if (Array.isArray(data)) {
         setEpapers(data);
+      } else {
+        console.warn('Expected array but got:', typeof data, data);
+        setEpapers([]); // Set empty array if not array
       }
     } catch (error) {
       console.error('Error loading epapers:', error);
+      setEpapers([]); // Set empty array on error to prevent crash
       if (error.isNetworkError || error.message?.includes('Failed to fetch') || error.message?.includes('ERR_CONNECTION_REFUSED')) {
         toast.error('बॅकएंड सर्वर चालू नाही. कृपया सर्वर सुरू करा.', {
           autoClose: 5001
@@ -47,6 +53,8 @@ const EPaperManagement2 = () => {
       } else {
         toast.error('Error loading e-papers: ' + (error.message || 'Unknown error'));
       }
+    } finally {
+      setLoading(false); // Always set loading to false
     }
   };
 
