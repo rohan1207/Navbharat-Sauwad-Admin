@@ -336,4 +336,3 @@ const AuthorsManagement = () => {
 };
 
 export default AuthorsManagement;
-

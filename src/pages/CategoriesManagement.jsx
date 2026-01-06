@@ -339,4 +339,3 @@ const CategoriesManagement = () => {
 };
 
 export default CategoriesManagement;
-

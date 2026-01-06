@@ -129,11 +129,14 @@ const EPaperManagement2 = () => {
       const epaper = epapers.find(ep => ep.id === epaperId);
       if (!epaper) return;
 
+      // Only send the fields that need to be updated
       const updatedEpaper = await apiFetch(`/epapers/${epaperId}`, {
         method: 'PUT',
         body: {
-          ...epaper,
-          title: editingTitleValue
+          title: editingTitleValue,
+          date: epaper.date,
+          pages: epaper.pages || [],
+          status: epaper.status || 'published'
         }
       });
 
@@ -145,7 +148,8 @@ const EPaperManagement2 = () => {
       toast.success('Title updated successfully!');
     } catch (error) {
       console.error('Error updating title:', error);
-      toast.error('Error updating title: ' + (error.message || 'Unknown error'));
+      const errorMessage = error.body?.error || error.body?.details || error.message || 'Unknown error';
+      toast.error('Error updating title: ' + errorMessage);
     }
   };
 
@@ -743,4 +747,3 @@ const EPaperManagement2 = () => {
 };
 
 export default EPaperManagement2;
-

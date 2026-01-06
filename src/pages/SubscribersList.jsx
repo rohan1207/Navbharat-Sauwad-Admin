@@ -259,8 +259,3 @@ const SubscribersList = () => {
 };
 
 export default SubscribersList;
-
-
-
-
-

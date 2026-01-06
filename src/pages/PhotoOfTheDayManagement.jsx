@@ -373,4 +373,3 @@ const PhotoOfTheDayManagement = () => {
 };
 
 export default PhotoOfTheDayManagement;
-

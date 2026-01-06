@@ -599,4 +599,3 @@ const AdManagement = () => {
 };
 
 export default AdManagement;
-
