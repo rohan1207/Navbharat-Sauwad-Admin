@@ -24,7 +24,7 @@ const SubscribersList = () => {
       }
     } catch (error) {
       console.error('Error fetching subscribers:', error);
-      toast.error('सबस्क्रायबर लोड करताना त्रुटी');
+      toast.error('Error loading subscribers');
     } finally {
       setLoading(false);
     }
@@ -42,13 +42,13 @@ const SubscribersList = () => {
 
   // Download as CSV
   const downloadCSV = () => {
-    const headers = ['नाव', 'ईमेल', 'मोबाइल नंबर', 'सबस्क्रिप्शन तारीख', 'स्थिती'];
+    const headers = ['Name', 'Email', 'Mobile Number', 'Subscription Date', 'Status'];
     const rows = filteredSubscribers.map(sub => [
       sub.name || '',
       sub.email || '',
       sub.phone || '',
-      sub.createdAt ? new Date(sub.createdAt).toLocaleDateString('mr-IN') : '',
-      sub.isActive ? 'सक्रिय' : 'निष्क्रिय'
+      sub.createdAt ? new Date(sub.createdAt).toLocaleDateString('en-IN') : '',
+      sub.isActive ? 'Active' : 'Inactive'
     ]);
 
     const csvContent = [
@@ -65,7 +65,7 @@ const SubscribersList = () => {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    toast.success('CSV फाइल डाउनलोड केली');
+    toast.success('CSV file downloaded');
   };
 
   // Format date
@@ -90,10 +90,10 @@ const SubscribersList = () => {
               </div>
               <div>
                 <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-                  सबस्क्रायबर
+                  Subscribers
                 </h1>
                 <p className="text-sm text-gray-600 mt-1">
-                  एकूण: {filteredSubscribers.length} सबस्क्रायबर
+                  Total: {filteredSubscribers.length} subscribers
                 </p>
               </div>
             </div>

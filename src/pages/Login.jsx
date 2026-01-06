@@ -13,7 +13,7 @@ const Login = () => {
     e.preventDefault();
     
     if (!username || !password) {
-      toast.error('कृपया वापरकर्तानाव आणि पासवर्ड प्रविष्ट करा');
+      toast.error('Please enter username and password');
       return;
     }
 
@@ -27,12 +27,12 @@ const Login = () => {
       localStorage.setItem('adminToken', token);
       localStorage.setItem('adminUsername', username);
       
-      toast.success('यशस्वीरित्या लॉगिन झाले!');
+      toast.success('Login successful!');
       setTimeout(() => {
         navigate('/admin');
       }, 500);
     } else {
-      toast.error('अवैध वापरकर्तानाव किंवा पासवर्ड');
+      toast.error('Invalid username or password');
       setLoading(false);
     }
   };
@@ -45,20 +45,20 @@ const Login = () => {
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
               नव मंच
             </h1>
-            <p className="text-gray-600">प्रशासन पॅनल लॉगिन</p>
+            <p className="text-gray-600">Admin Panel Login</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                वापरकर्तानाव
+                Username
               </label>
               <input
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
-                placeholder="वापरकर्तानाव प्रविष्ट करा"
+                placeholder="Enter username"
                 required
                 autoFocus
               />
@@ -66,14 +66,14 @@ const Login = () => {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                पासवर्ड
+                Password
               </label>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all"
-                placeholder="पासवर्ड प्रविष्ट करा"
+                placeholder="Enter password"
                 required
               />
             </div>
@@ -83,7 +83,7 @@ const Login = () => {
               disabled={loading}
               className="w-full bg-black text-white py-3 rounded-lg font-semibold hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? 'लॉगिन होत आहे...' : 'लॉगिन करा'}
+              {loading ? 'Logging in...' : 'Login'}
             </button>
           </form>
 

@@ -28,7 +28,7 @@ const MediaLibrary = () => {
       }
     } catch (error) {
       console.error('Error fetching media:', error);
-      toast.error('मीडिया लोड करताना त्रुटी');
+      toast.error('Error loading media');
     } finally {
       setLoading(false);
     }
@@ -50,11 +50,11 @@ const MediaLibrary = () => {
       });
 
       if (data) {
-        toast.success(`${files.length} फाइल यशस्वीरित्या अपलोड केल्या`);
+        toast.success(`${files.length} files uploaded successfully`);
         fetchMedia();
       }
     } catch (error) {
-      toast.error('फाइल अपलोड करताना त्रुटी');
+      toast.error('Error uploading files');
     } finally {
       setUploading(false);
     }
@@ -63,27 +63,27 @@ const MediaLibrary = () => {
   const handleDelete = async (id) => {
     // Validate ID before proceeding
     if (!id || id === 'undefined' || id === 'null') {
-      toast.error('अवैध मीडिया ID');
+      toast.error('Invalid media ID');
       console.error('Invalid media ID:', id);
       return;
     }
 
-    if (!window.confirm('तुम्हाला खात्री आहे की तुम्ही ही फाइल हटवू इच्छिता?')) {
+    if (!window.confirm('Are you sure you want to delete this file?')) {
       return;
     }
 
     try {
       await apiFetch(`/admin/media/${id}`, { method: 'DELETE' });
-      toast.success('फाइल यशस्वीरित्या हटवली');
+      toast.success('File deleted successfully');
       fetchMedia();
     } catch (error) {
-      toast.error('फाइल हटवताना त्रुटी');
+      toast.error('Error deleting file');
     }
   };
 
   const copyToClipboard = (url) => {
     navigator.clipboard.writeText(url);
-    toast.success('URL कॉपी केला');
+    toast.success('URL copied');
   };
 
   const getMediaIcon = (type) => {
@@ -97,13 +97,13 @@ const MediaLibrary = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">मीडिया लायब्ररी</h1>
-          <p className="text-sm sm:text-base text-gray-600 mt-1">प्रतिमा, व्हिडिओ आणि PDF व्यवस्थापन</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Media Library</h1>
+          <p className="text-sm sm:text-base text-gray-600 mt-1">Manage images, videos and PDFs</p>
         </div>
         <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full sm:w-auto">
           <label className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 text-sm sm:text-base bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer">
             <FiUpload className="w-4 h-4 sm:w-5 sm:h-5" />
-            <span>प्रतिमा अपलोड</span>
+            <span>Upload Image</span>
             <input
               type="file"
               className="hidden"
@@ -115,7 +115,7 @@ const MediaLibrary = () => {
           </label>
           <label className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 text-sm sm:text-base bg-green-600 text-white rounded-lg hover:bg-green-700 cursor-pointer">
             <FiUpload className="w-4 h-4 sm:w-5 sm:h-5" />
-            <span>PDF अपलोड</span>
+            <span>Upload PDF</span>
             <input
               type="file"
               className="hidden"
@@ -132,7 +132,7 @@ const MediaLibrary = () => {
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 sm:p-4">
           <div className="flex items-center gap-2 sm:gap-3">
             <div className="animate-spin rounded-full h-4 w-4 sm:h-5 sm:w-5 border-b-2 border-blue-600"></div>
-            <span className="text-xs sm:text-sm text-blue-800">फाइल अपलोड होत आहे...</span>
+            <span className="text-xs sm:text-sm text-blue-800">Uploading files...</span>
           </div>
         </div>
       )}
@@ -144,7 +144,7 @@ const MediaLibrary = () => {
             <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
             <input
               type="text"
-              placeholder="मीडिया शोधा..."
+              placeholder="Search media..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-9 sm:pl-10 pr-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
@@ -155,9 +155,9 @@ const MediaLibrary = () => {
             onChange={(e) => setFilterType(e.target.value)}
             className="px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
           >
-            <option value="all">सर्व प्रकार</option>
-            <option value="image">प्रतिमा</option>
-            <option value="video">व्हिडिओ</option>
+            <option value="all">All Types</option>
+            <option value="image">Image</option>
+            <option value="video">Video</option>
             <option value="pdf">PDF</option>
           </select>
           <button
@@ -168,7 +168,7 @@ const MediaLibrary = () => {
             className="px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg hover:bg-gray-50 flex items-center justify-center gap-2"
           >
             <FiFilter className="w-4 h-4 sm:w-5 sm:h-5" />
-            <span>साफ करा</span>
+            <span>Clear</span>
           </button>
         </div>
       </div>
@@ -215,7 +215,7 @@ const MediaLibrary = () => {
                         onClick={() => copyToClipboard(item.url)}
                         className="opacity-0 group-hover:opacity-100 px-3 py-1 bg-white text-gray-900 rounded text-sm hover:bg-gray-100"
                       >
-                        URL कॉपी
+                        Copy URL
                       </button>
                       <button
                         onClick={() => handleDelete(mediaId)}
@@ -240,7 +240,7 @@ const MediaLibrary = () => {
       ) : (
         <div className="text-center py-12 bg-white rounded-lg border border-gray-200">
           <FiImage className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-          <p className="text-gray-500">कोणतेही मीडिया नाही</p>
+          <p className="text-gray-500">No media found</p>
         </div>
       )}
     </div>

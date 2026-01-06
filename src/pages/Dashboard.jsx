@@ -162,7 +162,7 @@ const Dashboard = () => {
       }
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
-      toast.error('डॅशबोर्ड डेटा लोड करताना त्रुटी');
+      toast.error('Error loading dashboard data');
     } finally {
       setLoading(false);
     }
@@ -171,63 +171,63 @@ const Dashboard = () => {
   // Create statCards array - this will re-render when stats change
   const statCards = [
     {
-      title: 'एकूण लेख',
+      title: 'Total Articles',
       value: typeof stats.totalArticles === 'number' ? stats.totalArticles : 0,
       icon: <FiFileText className="w-6 h-6" />,
       color: 'bg-blue-500',
       link: '/admin/articles'
     },
     {
-      title: 'आज प्रकाशित',
+      title: 'Published Today',
       value: stats.publishedToday || 0,
       icon: <FiTrendingUp className="w-6 h-6" />,
       color: 'bg-green-500',
       link: '/admin/articles?status=published'
     },
     {
-      title: 'ड्राफ्ट',
+      title: 'Drafts',
       value: stats.drafts || 0,
       icon: <FiEdit className="w-6 h-6" />,
       color: 'bg-yellow-500',
       link: '/admin/articles?status=draft'
     },
     {
-      title: 'एकूण दृश्ये',
+      title: 'Total Views',
       value: (stats.totalViews || 0).toLocaleString('en-IN'),
       icon: <FiEye className="w-6 h-6" />,
       color: 'bg-purple-500',
       link: '/admin/articles'
     },
     {
-      title: 'श्रेणी',
+      title: 'Categories',
       value: stats.totalCategories || 0,
       icon: <FiFileText className="w-6 h-6" />,
       color: 'bg-indigo-500',
       link: '/admin/categories'
     },
     {
-      title: 'लेखक',
+      title: 'Authors',
       value: stats.totalAuthors || 0,
       icon: <FiUsers className="w-6 h-6" />,
       color: 'bg-pink-500',
       link: '/admin/authors'
     },
     {
-      title: 'सबस्क्रायबर',
+      title: 'Subscribers',
       value: stats.totalSubscribers || 0,
       icon: <FiUsers className="w-6 h-6" />,
       color: 'bg-teal-500',
       link: '/admin/subscribers'
     },
     {
-      title: 'ई-पेपर',
+      title: 'E-Papers',
       value: stats.totalEpaper || 0,
       icon: <FiFile className="w-6 h-6" />,
       color: 'bg-orange-500',
-      link: '/admin/epaper2'
+      link: '/admin/epaper'
     },
     {
-      title: 'मीडिया',
+      title: 'Media',
       value: stats.totalMedia || 0,
       icon: <FiImage className="w-6 h-6" />,
       color: 'bg-cyan-500',
@@ -249,7 +249,7 @@ const Dashboard = () => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
         <div>
           <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">डॅशबोर्ड</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Dashboard</h1>
             {connected && (
               <span className="flex items-center gap-2 px-2 sm:px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs sm:text-sm">
                 <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
@@ -257,14 +257,14 @@ const Dashboard = () => {
               </span>
             )}
           </div>
-          <p className="text-sm sm:text-base text-gray-600 mt-1">आपल्या वेबसाइटचा अवलोकन</p>
+          <p className="text-sm sm:text-base text-gray-600 mt-1">Overview of your website</p>
         </div>
         <Link
           to="/admin/articles/create"
           className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-black transition-colors shadow-sm text-sm sm:text-base"
         >
           <FiPlusCircle className="w-4 h-4 sm:w-5 sm:h-5" />
-          <span>नवीन लेख</span>
+          <span>New Article</span>
         </Link>
       </div>
 
@@ -291,35 +291,35 @@ const Dashboard = () => {
 
       {/* Quick Actions */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
-        <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">द्रुत क्रिया</h2>
+        <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">Quick Actions</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           <Link
             to="/admin/articles/create"
             className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
           >
             <FiPlusCircle className="w-4 h-4 sm:w-5 sm:h-5 text-gray-900 flex-shrink-0" />
-            <span className="font-medium text-sm sm:text-base">नवीन लेख</span>
+            <span className="font-medium text-sm sm:text-base">New Article</span>
           </Link>
           <Link
             to="/admin/categories"
             className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
           >
             <FiFileText className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0" />
-            <span className="font-medium text-sm sm:text-base">श्रेणी व्यवस्थापन</span>
+            <span className="font-medium text-sm sm:text-base">Categories Management</span>
           </Link>
           <Link
             to="/admin/media"
             className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
           >
             <FiImage className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 flex-shrink-0" />
-            <span className="font-medium text-sm sm:text-base">मीडिया लायब्ररी</span>
+            <span className="font-medium text-sm sm:text-base">Media Library</span>
           </Link>
           <Link
-            to="/admin/epaper2"
+            to="/admin/epaper"
             className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
           >
             <FiFile className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600 flex-shrink-0" />
-            <span className="font-medium text-sm sm:text-base">ई-पेपर</span>
+            <span className="font-medium text-sm sm:text-base">E-Paper</span>
           </Link>
         </div>
       </div>
@@ -327,12 +327,12 @@ const Dashboard = () => {
       {/* Recent Articles */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0 mb-3 sm:mb-4">
-          <h2 className="text-lg sm:text-xl font-semibold text-gray-900">अलीकडील लेख</h2>
+          <h2 className="text-lg sm:text-xl font-semibold text-gray-900">Recent Articles</h2>
           <Link
             to="/admin/articles"
             className="text-gray-900 hover:text-black text-xs sm:text-sm font-medium"
           >
-            सर्व पहा →
+            View All →
           </Link>
         </div>
         {recentArticles.length > 0 ? (
@@ -362,7 +362,7 @@ const Dashboard = () => {
                         ? 'bg-green-100 text-green-800' 
                         : 'bg-yellow-100 text-yellow-800'
                     }`}>
-                      {article.status === 'published' ? 'प्रकाशित' : 'ड्राफ्ट'}
+                      {article.status === 'published' ? 'Published' : 'Draft'}
                     </span>
                   </div>
                 </div>
@@ -370,7 +370,7 @@ const Dashboard = () => {
             ))}
           </div>
         ) : (
-          <p className="text-gray-500 text-center py-6 sm:py-8 text-sm sm:text-base">अजून कोणतेही लेख नाहीत</p>
+          <p className="text-gray-500 text-center py-6 sm:py-8 text-sm sm:text-base">No articles yet</p>
         )}
       </div>
     </div>

@@ -57,29 +57,29 @@ const ArticlesList = () => {
       }
     } catch (error) {
       console.error('Error fetching articles:', error);
-      toast.error('लेख लोड करताना त्रुटी');
+      toast.error('Error loading articles');
     } finally {
       setLoading(false);
     }
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('तुम्हाला खात्री आहे की तुम्ही हा लेख हटवू इच्छिता?')) {
+    if (!window.confirm('Are you sure you want to delete this article?')) {
       return;
     }
 
     try {
       await apiFetch(`/admin/articles/${id}`, { method: 'DELETE' });
-      toast.success('लेख यशस्वीरित्या हटवला');
+      toast.success('Article deleted successfully');
       fetchArticles();
     } catch (error) {
-      toast.error('लेख हटवताना त्रुटी');
+      toast.error('Error deleting article');
     }
   };
 
   const handleBulkAction = async (action, selectedIds) => {
     if (selectedIds.length === 0) {
-      toast.warning('कृपया लेख निवडा');
+      toast.warning('Please select articles');
       return;
     }
 
@@ -88,10 +88,10 @@ const ArticlesList = () => {
         method: 'POST',
         body: { action, ids: selectedIds }
       });
-      toast.success('क्रिया यशस्वीरित्या पूर्ण झाली');
+      toast.success('Action completed successfully');
       fetchArticles();
     } catch (error) {
-      toast.error('क्रिया करताना त्रुटी');
+      toast.error('Error performing action');
     }
   };
 
@@ -100,15 +100,15 @@ const ArticlesList = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">लेख व्यवस्थापन</h1>
-          <p className="text-sm sm:text-base text-gray-600 mt-1">सर्व लेख पहा आणि व्यवस्थापित करा</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Articles Management</h1>
+          <p className="text-sm sm:text-base text-gray-600 mt-1">View and manage all articles</p>
         </div>
         <Link
           to="/admin/articles/create"
           className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-black transition-colors shadow-sm text-sm sm:text-base"
         >
           <FiPlusCircle className="w-4 h-4 sm:w-5 sm:h-5" />
-          <span>नवीन लेख</span>
+          <span>New Article</span>
         </Link>
       </div>
 
@@ -119,7 +119,7 @@ const ArticlesList = () => {
             <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
             <input
               type="text"
-              placeholder="लेख शोधा..."
+              placeholder="Search articles..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-9 sm:pl-10 pr-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent"
@@ -130,7 +130,7 @@ const ArticlesList = () => {
             onChange={(e) => setSelectedCategory(e.target.value)}
             className="px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent"
           >
-            <option value="">सर्व श्रेणी</option>
+            <option value="">All Categories</option>
             {categories.map((cat) => {
               const catId = cat._id || cat.id;
               return (
@@ -143,10 +143,10 @@ const ArticlesList = () => {
             onChange={(e) => setSelectedStatus(e.target.value)}
             className="px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent"
           >
-            <option value="">सर्व स्थिती</option>
-            <option value="published">प्रकाशित</option>
-            <option value="draft">ड्राफ्ट</option>
-            <option value="pending">प्रलंबित</option>
+            <option value="">All Status</option>
+            <option value="published">Published</option>
+            <option value="draft">Draft</option>
+            <option value="pending">Pending</option>
           </select>
           <button
             onClick={() => {
@@ -157,7 +157,7 @@ const ArticlesList = () => {
             className="px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors flex items-center justify-center gap-2"
           >
             <FiFilter className="w-4 h-4 sm:w-5 sm:h-5" />
-            <span>साफ करा</span>
+            <span>Clear</span>
           </button>
         </div>
       </div>
@@ -179,25 +179,25 @@ const ArticlesList = () => {
                       <input type="checkbox" className="rounded" />
                     </th>
                     <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      लेख
+                      Article
                     </th>
                     <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      श्रेणी
+                      Category
                     </th>
                     <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      लेखक
+                      Author
                     </th>
                     <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      स्थिती
+                      Status
                     </th>
                     <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      दृश्ये
+                      Views
                     </th>
                     <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      तारीख
+                      Date
                     </th>
                     <th className="px-4 lg:px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      क्रिया
+                      Actions
                     </th>
                   </tr>
                 </thead>
@@ -255,8 +255,8 @@ const ArticlesList = () => {
                             ? 'bg-yellow-100 text-yellow-800'
                             : 'bg-gray-100 text-gray-800'
                         }`}>
-                          {article.status === 'published' ? 'प्रकाशित' : 
-                           article.status === 'draft' ? 'ड्राफ्ट' : 'प्रलंबित'}
+                          {article.status === 'published' ? 'Published' : 
+                           article.status === 'draft' ? 'Draft' : 'Pending'}
                         </span>
                       </td>
                       <td className="px-4 lg:px-6 py-4 whitespace-nowrap text-sm text-gray-600">
@@ -270,14 +270,14 @@ const ArticlesList = () => {
                           <Link
                             to={`/admin/articles/edit/${articleId}`}
                             className="text-blue-600 hover:text-blue-900"
-                            title="संपादन"
+                            title="Edit"
                           >
                             <FiEdit className="w-5 h-5" />
                           </Link>
                           <button
                             onClick={() => handleDelete(articleId)}
                             className="text-gray-900 hover:text-black"
-                            title="हटवा"
+                            title="Delete"
                           >
                             <FiTrash2 className="w-5 h-5" />
                           </button>
@@ -332,9 +332,9 @@ const ArticlesList = () => {
                             </span>
                           </div>
                           <div className="flex flex-wrap items-center gap-3 text-xs text-gray-600 mb-2">
-                            <span>लेखक: {article.authorId?.name || article.author?.name || 'N/A'}</span>
+                            <span>Author: {article.authorId?.name || article.author?.name || 'N/A'}</span>
                             <span>•</span>
-                            <span>दृश्ये: {article.views || 0}</span>
+                            <span>Views: {article.views || 0}</span>
                             <span>•</span>
                             <span>{new Date(article.date || article.createdAt || article.publishedAt).toLocaleDateString('mr-IN')}</span>
                           </div>
@@ -344,14 +344,14 @@ const ArticlesList = () => {
                               className="flex items-center gap-1 text-blue-600 hover:text-blue-900 text-sm"
                             >
                               <FiEdit className="w-4 h-4" />
-                              <span>संपादन</span>
+                              <span>Edit</span>
                             </Link>
                             <button
                               onClick={() => handleDelete(articleId)}
                               className="flex items-center gap-1 text-gray-900 hover:text-black text-sm"
                             >
                               <FiTrash2 className="w-4 h-4" />
-                              <span>हटवा</span>
+                              <span>Delete</span>
                             </button>
                           </div>
                         </div>
@@ -364,7 +364,7 @@ const ArticlesList = () => {
             {totalPages > 1 && (
               <div className="px-4 sm:px-6 py-4 border-t border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-0">
                 <div className="text-xs sm:text-sm text-gray-600">
-                  पृष्ठ {page} पैकी {totalPages}
+                  Page {page} of {totalPages}
                 </div>
                 <div className="flex gap-2">
                   <button
@@ -372,14 +372,14 @@ const ArticlesList = () => {
                     disabled={page === 1}
                     className="px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
                   >
-                    मागील
+                    Previous
                   </button>
                   <button
                     onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                     disabled={page === totalPages}
                     className="px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
                   >
-                    पुढील
+                    Next
                   </button>
                 </div>
               </div>
@@ -387,13 +387,13 @@ const ArticlesList = () => {
           </>
         ) : (
           <div className="text-center py-8 sm:py-12 px-4">
-            <p className="text-sm sm:text-base text-gray-500 mb-4">कोणतेही लेख सापडले नाहीत</p>
+            <p className="text-sm sm:text-base text-gray-500 mb-4">No articles found</p>
             <Link
               to="/admin/articles/create"
               className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 text-sm sm:text-base bg-gray-900 text-white rounded-lg hover:bg-black"
             >
               <FiPlusCircle className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span>नवीन लेख तयार करा</span>
+              <span>Create New Article</span>
             </Link>
           </div>
         )}

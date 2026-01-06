@@ -50,7 +50,7 @@ const App = () => {
               <Route path="categories" element={<CategoriesManagement />} />
               <Route path="authors" element={<AuthorsManagement />} />
               <Route path="media" element={<MediaLibrary />} />
-              <Route path="epaper2" element={<EPaperManagement2 />} />
+              <Route path="epaper" element={<EPaperManagement2 />} />
               <Route path="ads" element={<AdManagement />} />
               <Route path="photo-of-the-day" element={<PhotoOfTheDayManagement />} />
               <Route path="shorts" element={<ShortsManagement />} />

@@ -48,9 +48,9 @@ const Settings = () => {
         method: 'PUT',
         body: settings
       });
-      toast.success('सेटिंग्ज यशस्वीरित्या अपडेट केल्या');
+      toast.success('Settings updated successfully');
     } catch (error) {
-      toast.error('सेटिंग्ज अपडेट करताना त्रुटी');
+      toast.error('Error updating settings');
     } finally {
       setLoading(false);
     }
@@ -60,8 +60,8 @@ const Settings = () => {
     <div className="space-y-6">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">सेटिंग्ज</h1>
-        <p className="text-gray-600 mt-1">वेबसाइट सेटिंग्ज व्यवस्थापित करा</p>
+        <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
+        <p className="text-gray-600 mt-1">Manage website settings</p>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -69,12 +69,12 @@ const Settings = () => {
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <FiGlobe className="w-5 h-5" />
-            साइट माहिती
+            Site Information
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                साइट नाव (English)
+                Site Name (English)
               </label>
               <input
                 type="text"
@@ -85,7 +85,7 @@ const Settings = () => {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                साइट नाव (मराठी)
+                Site Name (Marathi)
               </label>
               <input
                 type="text"
@@ -96,7 +96,7 @@ const Settings = () => {
             </div>
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                साइट वर्णन (मराठी)
+                Site Description (Marathi)
               </label>
               <textarea
                 value={settings.siteDescriptionMarathi}
@@ -112,12 +112,12 @@ const Settings = () => {
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <FiMail className="w-5 h-5" />
-            संपर्क माहिती
+            Contact Information
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                ईमेल
+                Email
               </label>
               <input
                 type="email"
@@ -128,7 +128,7 @@ const Settings = () => {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                फोन
+                Phone
               </label>
               <input
                 type="tel"
@@ -139,7 +139,7 @@ const Settings = () => {
             </div>
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                पत्ता
+                Address
               </label>
               <textarea
                 value={settings.address}
@@ -154,7 +154,7 @@ const Settings = () => {
         {/* Newspaper Information */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-4">
-            वृत्तपत्र माहिती
+            Newspaper Information
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -170,7 +170,7 @@ const Settings = () => {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                मुख्य संपादक
+                Chief Editor
               </label>
               <input
                 type="text"
@@ -186,7 +186,7 @@ const Settings = () => {
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <FiLink className="w-5 h-5" />
-            सोशल मीडिया लिंक
+            Social Media Links
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -267,7 +267,7 @@ const Settings = () => {
         {/* SEO Settings */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-4">
-            SEO सेटिंग्ज
+            SEO Settings
           </h2>
           <div className="space-y-4">
             <div>
@@ -305,7 +305,7 @@ const Settings = () => {
             className="flex items-center gap-2 px-6 py-3 bg-gray-900 text-white rounded-lg hover:bg-black disabled:opacity-50 shadow-sm"
           >
             <FiSave className="w-5 h-5" />
-            <span>सेटिंग्ज जतन करा</span>
+            <span>Save Settings</span>
           </button>
         </div>
       </form>

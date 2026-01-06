@@ -29,7 +29,7 @@ const AdManagement = () => {
       setAds(data || []);
     } catch (error) {
       console.error('Error fetching ads:', error);
-      toast.error('जाहिरात लोड करताना त्रुटी');
+      toast.error('Error loading ads');
     } finally {
       setLoading(false);
     }
@@ -39,7 +39,7 @@ const AdManagement = () => {
     e.preventDefault();
     
     if (!file && !editingAd) {
-      toast.error('कृपया फाइल निवडा');
+      toast.error('Please select a file');
       return;
     }
 
@@ -62,13 +62,13 @@ const AdManagement = () => {
           method: 'PUT',
           body: formDataToSend
         });
-        toast.success('जाहिरात अपडेट केली');
+        toast.success('Ad updated successfully');
       } else {
         result = await apiFetch('/admin/ads', {
           method: 'POST',
           body: formDataToSend
         });
-        toast.success('जाहिरात जोडली');
+        toast.success('Ad added successfully');
       }
 
       setShowForm(false);
@@ -84,7 +84,7 @@ const AdManagement = () => {
       fetchAds();
     } catch (error) {
       console.error('Error saving ad:', error);
-      toast.error('जाहिरात सेव्ह करताना त्रुटी');
+      toast.error('Error saving ad');
     } finally {
       setUploading(false);
     }
@@ -104,7 +104,7 @@ const AdManagement = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('तुम्हाला खात्री आहे की तुम्ही ही जाहिरात हटवू इच्छिता?')) {
+    if (!window.confirm('Are you sure you want to delete this ad?')) {
       return;
     }
 
@@ -112,11 +112,11 @@ const AdManagement = () => {
       await apiFetch(`/admin/ads/${id}`, {
         method: 'DELETE'
       });
-      toast.success('जाहिरात हटवली');
+      toast.success('Ad deleted successfully');
       fetchAds();
     } catch (error) {
       console.error('Error deleting ad:', error);
-      toast.error('जाहिरात हटवताना त्रुटी');
+      toast.error('Error deleting ad');
     }
   };
 
@@ -133,7 +133,7 @@ const AdManagement = () => {
         method: 'PUT',
         body: formData
       });
-      toast.success(`जाहिरात ${!ad.isActive ? 'सक्रिय' : 'निष्क्रिय'} केली`);
+      toast.success(`Ad ${!ad.isActive ? 'activated' : 'deactivated'}`);
       fetchAds();
     } catch (error) {
       console.error('Error toggling ad:', error);
@@ -160,7 +160,7 @@ const AdManagement = () => {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">जाहिरात व्यवस्थापन</h1>
+        <h1 className="text-2xl font-bold text-gray-900">Ads Management</h1>
         <button
           onClick={() => {
             setShowForm(true);
@@ -176,7 +176,7 @@ const AdManagement = () => {
           }}
           className="flex items-center gap-2 bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors"
         >
-          <FiPlus /> नवीन जाहिरात
+          <FiPlus /> New Ad
         </button>
       </div>
 
@@ -187,7 +187,7 @@ const AdManagement = () => {
             <div className="p-6 md:p-8">
               <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
                 <h2 className="text-xl font-bold text-gray-900">
-                  {editingAd ? 'जाहिरात संपादन' : 'नवीन जाहिरात'}
+                  {editingAd ? 'Edit Ad' : 'New Ad'}
                 </h2>
                 <button
                   onClick={() => {
@@ -206,7 +206,7 @@ const AdManagement = () => {
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    स्थान
+                    Position
                   </label>
                   <select
                     value={formData.position}
@@ -214,30 +214,30 @@ const AdManagement = () => {
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black/20 focus:border-black/30 transition-all bg-white text-gray-900"
                     required
                   >
-                    <option value="left">डावी बाजू (Image/Video)</option>
-                    <option value="right">उजवी बाजू (Image/Video)</option>
-                    <option value="horizontal-video">आडवी व्हिडिओ जाहिरात</option>
-                    <option value="right-vertical-video">उजवी बाजू - उभी व्हिडिओ जाहिरात</option>
-                    <option value="horizontal-image">आडवी इमेज जाहिरात</option>
+                    <option value="left">Left Side (Image/Video)</option>
+                    <option value="right">Right Side (Image/Video)</option>
+                    <option value="horizontal-video">Horizontal Video Ad</option>
+                    <option value="right-vertical-video">Right Side - Vertical Video Ad</option>
+                    <option value="horizontal-image">Horizontal Image Ad</option>
                   </select>
                 </div>
 
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    शीर्षक <span className="text-gray-400 font-normal text-xs">(वैकल्पिक)</span>
+                    Title <span className="text-gray-400 font-normal text-xs">(Optional)</span>
                   </label>
                   <input
                     type="text"
                     value={formData.title}
                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black/20 focus:border-black/30 transition-all bg-white"
-                    placeholder="जाहिरात शीर्षक"
+                    placeholder="Ad title"
                   />
                 </div>
 
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    लिंक <span className="text-gray-400 font-normal text-xs">(वैकल्पिक)</span>
+                    Link <span className="text-gray-400 font-normal text-xs">(Optional)</span>
                   </label>
                   <input
                     type="url"
@@ -251,7 +251,7 @@ const AdManagement = () => {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      क्रम
+                      Order
                     </label>
                     <input
                       type="number"
@@ -271,7 +271,7 @@ const AdManagement = () => {
                         className="w-4 h-4 text-black border-gray-300 rounded focus:ring-black/20"
                       />
                       <label htmlFor="isActive" className="text-sm font-medium text-gray-700 cursor-pointer">
-                        सक्रिय
+                        Active
                       </label>
                     </div>
                   </div>
@@ -279,7 +279,7 @@ const AdManagement = () => {
 
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    फाइल {editingAd && <span className="text-gray-400 font-normal text-xs">(नवीन फाइल निवडल्यास जुनी बदलली जाईल)</span>}
+                    File {editingAd && <span className="text-gray-400 font-normal text-xs">(Select new file to replace old one)</span>}
                   </label>
                   <div className="relative">
                     <input
@@ -291,7 +291,7 @@ const AdManagement = () => {
                     />
                   </div>
                   <p className="text-xs text-gray-500 mt-2">
-                    छायाचित्र किंवा व्हिडिओ (10MB पर्यंत)
+                    Image or Video (up to 10MB)
                   </p>
                 </div>
 
@@ -301,7 +301,7 @@ const AdManagement = () => {
                     disabled={uploading}
                     className="flex-1 bg-black text-white px-5 py-3 rounded-xl hover:bg-gray-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-semibold shadow-sm hover:shadow-md"
                   >
-                    {uploading ? 'सेव्ह होत आहे...' : editingAd ? 'अपडेट करा' : 'जोडा'}
+                    {uploading ? 'Saving...' : editingAd ? 'Update' : 'Add'}
                   </button>
                   <button
                     type="button"
@@ -312,7 +312,7 @@ const AdManagement = () => {
                     }}
                     className="flex-1 bg-gray-100 text-gray-700 px-5 py-3 rounded-xl hover:bg-gray-200 transition-all duration-200 font-semibold border border-gray-200"
                   >
-                    रद्द करा
+                    Cancel
                   </button>
                 </div>
               </form>
@@ -326,8 +326,8 @@ const AdManagement = () => {
         {/* Left Side Ads */}
         <div className="bg-white rounded-lg border border-gray-200 p-6">
           <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-200">
-            <h2 className="text-lg font-semibold text-gray-900">डावी बाजू जाहिरात</h2>
-            <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">{groupedAds.left.length} जाहिरात</span>
+            <h2 className="text-lg font-semibold text-gray-900">Left Side Ads</h2>
+            <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">{groupedAds.left.length} ads</span>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {groupedAds.left.map((ad) => (

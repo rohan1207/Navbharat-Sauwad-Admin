@@ -45,7 +45,7 @@ const EPaperManagement2 = () => {
           autoClose: 5001
         });
       } else {
-        toast.error('ई-पेपर लोड करताना त्रुटी: ' + (error.message || 'Unknown error'));
+        toast.error('Error loading e-papers: ' + (error.message || 'Unknown error'));
       }
     }
   };
@@ -56,7 +56,7 @@ const EPaperManagement2 = () => {
       if (file && file.type === 'application/pdf') {
         setNewEpaper({ ...newEpaper, pdfFile: file });
       } else {
-        toast.error('कृपया वैध PDF फाइल निवडा');
+        toast.error('Please select a valid PDF file');
       }
     } else {
       // Individual page upload - handle multiple files
@@ -64,7 +64,7 @@ const EPaperManagement2 = () => {
       const imageFiles = files.filter(file => file.type.startsWith('image/'));
       
       if (imageFiles.length === 0) {
-        toast.error('कृपया वैध प्रतिमा फाइल निवडा');
+        toast.error('Please select a valid image file');
         return;
       }
       
@@ -142,10 +142,10 @@ const EPaperManagement2 = () => {
       );
       setEpapers(updated);
       setEditingTitle(null);
-      toast.success('शीर्षक यशस्वीरित्या अपडेट केले!');
+      toast.success('Title updated successfully!');
     } catch (error) {
       console.error('Error updating title:', error);
-      toast.error('शीर्षक अपडेट करताना त्रुटी: ' + (error.message || 'Unknown error'));
+      toast.error('Error updating title: ' + (error.message || 'Unknown error'));
     }
   };
 
@@ -156,7 +156,7 @@ const EPaperManagement2 = () => {
 
   const handleUploadPages = async () => {
     if (!newEpaper.title || !newEpaper.date || pageUploads.length === 0) {
-      toast.error('कृपया शीर्षक, तारीख आणि किमान एक पृष्ठ अपलोड करा');
+      toast.error('Please provide title, date and upload at least one page');
       return;
     }
 
@@ -271,7 +271,7 @@ const EPaperManagement2 = () => {
       console.error('Error details:', error);
       console.error('Error stack:', error.stack);
       
-      let errorMessage = 'पृष्ठ अपलोड करताना त्रुटी';
+      let errorMessage = 'Error uploading pages';
       
       if (error.message && error.message.includes('Failed to fetch')) {
         errorMessage = 'बॅकएंड सर्वर कनेक्ट होऊ शकत नाही. कृपया सर्वर चालू आहे याची खात्री करा.';
@@ -316,7 +316,7 @@ const EPaperManagement2 = () => {
       const updated = [...epapers, savedEpaper];
       setEpapers(updated);
       
-      toast.success('ई-पेपर यशस्वीरित्या अपलोड झाले!');
+      toast.success('E-paper uploaded successfully!');
       
       setSelectedEpaper(savedEpaper);
       setShowMapping(true);
@@ -332,7 +332,7 @@ const EPaperManagement2 = () => {
       
     } catch (error) {
       console.error('Upload error:', error);
-      let errorMessage = 'PDF अपलोड करताना त्रुटी';
+      let errorMessage = 'Error uploading PDF';
       
       if (error.message && error.message.includes('Failed to fetch')) {
         errorMessage = 'बॅकएंड सर्वर कनेक्ट होऊ शकत नाही. कृपया सर्वर चालू आहे याची खात्री करा.';
@@ -349,17 +349,17 @@ const EPaperManagement2 = () => {
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('तुम्हाला खात्री आहे की तुम्ही हा ई-पेपर हटवू इच्छिता?')) {
+    if (window.confirm('Are you sure you want to delete this e-paper?')) {
       try {
         await apiFetch(`/epapers/${id}`, { method: 'DELETE' });
         const updated = epapers.filter(ep => ep.id !== id);
         setEpapers(updated);
-        toast.success('ई-पेपर हटवला गेला');
+        toast.success('E-paper deleted');
       } catch (error) {
         console.error('API delete failed:', error);
         const updated = epapers.filter(ep => ep.id !== id);
         setEpapers(updated);
-        toast.error('ई-पेपर हटवताना त्रुटी: ' + (error.message || 'API error'));
+        toast.error('Error deleting e-paper: ' + (error.message || 'API error'));
       }
     }
   };
@@ -420,19 +420,19 @@ const EPaperManagement2 = () => {
     <div className="min-h-screen bg-white p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">ई-पेपर व्यवस्थापन </h1>
-          <p className="text-gray-600">PDF अपलोड करा आणि सरलीकृत ई-मॅपिंग सेट करा</p>
-          <p className="text-sm text-blue-600 mt-2">✨ फक्त ड्रॅग करा - स्वयंचलित सेव्ह होईल</p>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">E-Paper Management</h1>
+          <p className="text-gray-600">Upload PDF and set up simplified e-mapping</p>
+          <p className="text-sm text-blue-600 mt-2">✨ Just drag - auto save enabled</p>
         </div>
 
         {/* Upload Section */}
         <div className="bg-white rounded-xl shadow-md p-6 mb-8">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">नवीन ई-पेपर अपलोड करा</h2>
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">Upload New E-Paper</h2>
           
           {/* Upload Mode Toggle */}
           <div className="mb-6 p-4 bg-gray-50 rounded-lg">
             <label className="block text-sm font-medium text-gray-700 mb-3">
-              अपलोड पद्धत निवडा:
+              Select Upload Method:
             </label>
             <div className="flex gap-4">
               <button
@@ -447,7 +447,7 @@ const EPaperManagement2 = () => {
                     : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-100'
                 }`}
               >
-                संपूर्ण PDF अपलोड करा
+                Upload Complete PDF
               </button>
               <button
                 onClick={() => {
@@ -460,7 +460,7 @@ const EPaperManagement2 = () => {
                     : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-100'
                 }`}
               >
-                वैयक्तिक पृष्ठ अपलोड करा
+                Upload Individual Pages
               </button>
             </div>
           </div>
@@ -468,20 +468,20 @@ const EPaperManagement2 = () => {
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                ई-पेपर शीर्षक *
+                E-Paper Title *
               </label>
               <input
                 type="text"
                 value={newEpaper.title}
                 onChange={(e) => setNewEpaper({ ...newEpaper, title: e.target.value })}
-                placeholder="उदा: नव मंच - 28 डिसेंबर 2025"
+                placeholder="e.g: Nav Manch - 28 December 2025"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-gray-900"
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                तारीख *
+                Date *
               </label>
               <input
                 type="date"
@@ -588,19 +588,19 @@ const EPaperManagement2 = () => {
                             <button
                               onClick={() => handlePageFileRemove(index)}
                               className="text-red-600 hover:text-red-800 ml-2"
-                              title="हटवा"
+                              title="Remove"
                             >
                               <FiX />
                             </button>
                           </div>
                         ))}
                         <p className="text-xs text-gray-500 mt-2">
-                          💡 टिप: पृष्ठांचा क्रम बदलण्यासाठी वर/खाली बटणे वापरा. हा क्रम अपलोड नंतर देखील राहील.
+                          💡 Tip: Use up/down buttons to change page order. This order will be maintained after upload.
                         </p>
                       </div>
                     )}
                     <p className="text-xs text-gray-500">
-                      💡 टिप: आपण एकाच वेळी अनेक प्रतिमा निवडू शकता. त्या स्वयंचलितपणे पृष्ठ 1, 2, 3... अशा क्रमाने व्यवस्थापित केल्या जातील.
+                      💡 Tip: You can select multiple images at once. They will be automatically managed as page 1, 2, 3... in order.
                     </p>
                   </div>
                 </div>
@@ -610,8 +610,8 @@ const EPaperManagement2 = () => {
                   <div className="w-full bg-gray-100 rounded-lg p-4 space-y-2">
                     <div className="flex justify-between items-center text-sm">
                       <span className="font-medium text-gray-700">
-                        {uploadProgress.status === 'preparing' && 'तयार करत आहे...'}
-                        {uploadProgress.status === 'uploading' && `अपलोड होत आहे: ${uploadProgress.current}/${uploadProgress.total}`}
+                        {uploadProgress.status === 'preparing' && 'Preparing...'}
+                        {uploadProgress.status === 'uploading' && `Uploading: ${uploadProgress.current}/${uploadProgress.total}`}
                         {uploadProgress.status === 'complete' && 'पूर्ण झाले!'}
                       </span>
                       <span className="text-gray-600 font-semibold">{uploadProgress.percentage}%</span>
@@ -646,12 +646,12 @@ const EPaperManagement2 = () => {
 
         {/* Existing E-Papers List */}
         <div className="bg-white rounded-xl shadow-md p-6">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">अस्तित्वातील ई-पेपर</h2>
+          <h2 className="text-xl font-semibold text-gray-800 mb-4">Existing E-Papers</h2>
           
           {epapers.length === 0 ? (
             <div className="text-center py-12 text-gray-500">
               <FiFile className="w-16 h-16 mx-auto mb-4 opacity-50" />
-              <p>अजून कोणतेही ई-पेपर अपलोड केलेले नाहीत</p>
+              <p>No e-papers uploaded yet</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -677,14 +677,14 @@ const EPaperManagement2 = () => {
                         <button
                           onClick={() => handleSaveTitle(epaper.id)}
                           className="px-2 py-1 bg-green-600 text-white rounded text-sm hover:bg-green-700"
-                          title="सेव्ह करा"
+                          title="Save"
                         >
                           ✓
                         </button>
                         <button
                           onClick={handleCancelTitleEdit}
                           className="px-2 py-1 bg-gray-600 text-white rounded text-sm hover:bg-gray-700"
-                          title="रद्द करा"
+                          title="Cancel"
                         >
                           ✕
                         </button>

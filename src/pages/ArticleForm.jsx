@@ -73,7 +73,7 @@ const ArticleForm = () => {
       // Validate ID before fetching
       if (!id || id === 'undefined' || id === 'null') {
         console.error('Invalid article ID:', id);
-        toast.error('अवैध लेख ID');
+        toast.error('Invalid article ID');
         navigate('/admin/articles');
         return;
       }
@@ -116,7 +116,7 @@ const ArticleForm = () => {
         });
       }
     } catch (error) {
-      toast.error('लेख लोड करताना त्रुटी');
+      toast.error('Error loading article');
     } finally {
       setLoading(false);
     }
@@ -125,7 +125,7 @@ const ArticleForm = () => {
   const handleImageUpload = async (file) => {
     try {
       setUploadingImage(true);
-      toast.info('प्रतिमा अपलोड होत आहे...', { autoClose: 2000 });
+      toast.info('Uploading image...', { autoClose: 2000 });
       const formData = new FormData();
       formData.append('image', file);
       
@@ -135,7 +135,7 @@ const ArticleForm = () => {
       });
       
       if (data && data.url) {
-        toast.success('प्रतिमा यशस्वीरित्या अपलोड केली', { autoClose: 2000 });
+        toast.success('Image uploaded successfully', { autoClose: 2000 });
         return data.url;
       } else {
         throw new Error('Invalid response from server');
@@ -143,7 +143,7 @@ const ArticleForm = () => {
     } catch (error) {
       console.error('Image upload error:', error);
       const errorMessage = error.body?.error || error.message || 'अज्ञात त्रुटी';
-      toast.error(`प्रतिमा अपलोड करताना त्रुटी: ${errorMessage}`);
+      toast.error(`Error uploading image: ${errorMessage}`);
       return null;
     } finally {
       setUploadingImage(false);
@@ -155,7 +155,7 @@ const ArticleForm = () => {
     
     // Validate scheduled date if status is pending
     if (formData.status === 'pending' && !formData.scheduledAt) {
-      toast.error('कृपया प्रकाशन तारीख आणि वेळ निवडा');
+      toast.error('Please select publication date and time');
       return;
     }
     
@@ -193,20 +193,20 @@ const ArticleForm = () => {
           method: 'PUT',
           body: payload
         });
-        toast.success('लेख यशस्वीरित्या अपडेट केला');
+        toast.success('Article updated successfully');
       } else {
         await apiFetch('/admin/articles', {
           method: 'POST',
           body: payload
         });
-        toast.success('लेख यशस्वीरित्या तयार केला');
+        toast.success('Article created successfully');
       }
 
       navigate('/admin/articles');
     } catch (error) {
       console.error('Article save error:', error);
-      const errorMessage = error.body?.error || error.message || 'अज्ञात त्रुटी';
-      toast.error(`${isEdit ? 'लेख अपडेट करताना त्रुटी' : 'लेख तयार करताना त्रुटी'}: ${errorMessage}`);
+      const errorMessage = error.body?.error || error.message || 'Unknown error';
+      toast.error(`${isEdit ? 'Error updating article' : 'Error creating article'}: ${errorMessage}`);
     } finally {
       setLoading(false);
     }
@@ -237,10 +237,10 @@ const ArticleForm = () => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-            {isEdit ? 'लेख संपादन' : 'नवीन लेख'}
+            {isEdit ? 'Edit Article' : 'New Article'}
           </h1>
           <p className="text-sm sm:text-base text-gray-600 mt-1">
-            {isEdit ? 'लेख संपादित करा' : 'नवीन लेख तयार करा'}
+            {isEdit ? 'Edit article' : 'Create new article'}
           </p>
         </div>
         <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full sm:w-auto">
@@ -250,7 +250,7 @@ const ArticleForm = () => {
             className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50"
           >
             <FiSave className="w-4 h-4 sm:w-5 sm:h-5" />
-            <span>ड्राफ्ट जतन करा</span>
+            <span>Save as Draft</span>
           </button>
           <button
             onClick={(e) => handleSubmit(e, true)}
@@ -258,7 +258,7 @@ const ArticleForm = () => {
             className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 text-sm sm:text-base bg-gray-900 text-white rounded-lg hover:bg-black disabled:opacity-50"
           >
             <FiSend className="w-4 h-4 sm:w-5 sm:h-5" />
-            <span>प्रकाशित करा</span>
+            <span>Publish</span>
           </button>
         </div>
       </div>
@@ -270,14 +270,14 @@ const ArticleForm = () => {
             {/* Title */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
               <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
-                शीर्षक (मराठी) *
+                Title (Marathi) *
               </label>
               <input
                 type="text"
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                 className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent"
-                placeholder="लेखाचे शीर्षक प्रविष्ट करा"
+                placeholder="Enter article title"
                 required
               />
             </div>
@@ -285,7 +285,7 @@ const ArticleForm = () => {
             {/* Content Editor */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
               <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
-                लेख सामग्री *
+                Article Content *
               </label>
               {process.env.NODE_ENV === 'development' && (
                 <div className="mb-2 p-2 bg-yellow-50 border border-yellow-200 rounded text-xs">
@@ -323,7 +323,7 @@ const ArticleForm = () => {
 
             {/* SEO Settings */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
-              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">SEO सेटिंग्ज</h3>
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">SEO Settings</h3>
               <div className="space-y-3 sm:space-y-4">
                 <div>
                   <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
@@ -357,12 +357,12 @@ const ArticleForm = () => {
           <div className="space-y-4 sm:space-y-6">
             {/* Publishing Options */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
-              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">प्रकाशन पर्याय</h3>
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Publishing Options</h3>
               <div className="space-y-3 sm:space-y-4">
                 {/* Article Date */}
                 <div>
                   <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
-                    तारीख *
+                    Date *
                   </label>
                   <input
                     type="date"
@@ -372,13 +372,13 @@ const ArticleForm = () => {
                     required
                   />
                   <p className="text-xs text-gray-500 mt-1">
-                    लेखाची तारीख (पूर्वनिर्धारित: आजची तारीख)
+                    Article date (default: today's date)
                   </p>
                 </div>
 
                 <div>
                   <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
-                    स्थिती
+                    Status
                   </label>
                   <select
                     value={formData.status}
@@ -393,9 +393,9 @@ const ArticleForm = () => {
                     }}
                     className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
                   >
-                    <option value="draft">ड्राफ्ट</option>
-                    <option value="pending">प्रलंबित (शेड्यूल केलेले)</option>
-                    <option value="published">प्रकाशित</option>
+                    <option value="draft">Draft</option>
+                    <option value="pending">Pending (Scheduled)</option>
+                    <option value="published">Published</option>
                   </select>
                 </div>
                 
@@ -403,7 +403,7 @@ const ArticleForm = () => {
                 {formData.status === 'pending' && (
                   <div>
                     <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
-                      प्रकाशन तारीख आणि वेळ *
+                      Publication Date & Time *
                     </label>
                     <input
                       type="datetime-local"
@@ -421,7 +421,7 @@ const ArticleForm = () => {
                     />
                     {formData.scheduledAt && (
                       <p className="text-xs text-gray-500 mt-1">
-                        निवडलेली तारीख: {new Date(formData.scheduledAt).toLocaleString('mr-IN', {
+                        Selected date: {new Date(formData.scheduledAt).toLocaleString('en-IN', {
                           dateStyle: 'full',
                           timeStyle: 'short'
                         })}
@@ -438,7 +438,7 @@ const ArticleForm = () => {
                       onChange={(e) => setFormData({ ...formData, isBreaking: e.target.checked })}
                       className="rounded"
                     />
-                    <span className="text-xs sm:text-sm text-gray-700">ब्रेकिंग न्यूज</span>
+                    <span className="text-xs sm:text-sm text-gray-700">Breaking News</span>
                   </label>
                   <label className="flex items-center gap-2">
                     <input
@@ -447,7 +447,7 @@ const ArticleForm = () => {
                       onChange={(e) => setFormData({ ...formData, isFeatured: e.target.checked })}
                       className="rounded"
                     />
-                    <span className="text-xs sm:text-sm text-gray-700">फीचर्ड लेख</span>
+                    <span className="text-xs sm:text-sm text-gray-700">Featured Article</span>
                   </label>
                 </div>
               </div>
@@ -455,11 +455,11 @@ const ArticleForm = () => {
 
             {/* Category Selection */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
-              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">श्रेणी</h3>
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Category</h3>
               <div className="space-y-3 sm:space-y-4">
                 <div>
                   <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
-                    मुख्य श्रेणी *
+                    Main Category *
                   </label>
                   <select
                     value={formData.categoryId}
@@ -467,7 +467,7 @@ const ArticleForm = () => {
                     className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
                     required
                   >
-                    <option value="">श्रेणी निवडा</option>
+                    <option value="">Select Category</option>
                     {mainCategories.map((cat) => {
                       const catId = getId(cat);
                       return (
@@ -479,14 +479,14 @@ const ArticleForm = () => {
                 {subCategories.length > 0 && (
                   <div>
                     <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
-                      उप-श्रेणी
+                      Sub-Category
                     </label>
                     <select
                       value={formData.subCategoryId}
                       onChange={(e) => setFormData({ ...formData, subCategoryId: e.target.value })}
                       className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
                     >
-                      <option value="">उप-श्रेणी निवडा</option>
+                      <option value="">Select Sub-Category</option>
                       {subCategories.map((cat) => {
                         const catId = getId(cat);
                         return (
@@ -501,13 +501,13 @@ const ArticleForm = () => {
 
             {/* Author Selection */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
-              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">लेखक</h3>
-              <select
-                value={formData.authorId}
-                onChange={(e) => setFormData({ ...formData, authorId: e.target.value })}
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Author</h3>
+                  <select
+                    value={formData.authorId}
+                    onChange={(e) => setFormData({ ...formData, authorId: e.target.value })}
                     className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
-              >
-                <option value="">लेखक निवडा</option>
+                  >
+                    <option value="">Select Author</option>
                 {authors.map((author) => {
                   const authorId = getId(author);
                   return (
@@ -519,7 +519,7 @@ const ArticleForm = () => {
 
             {/* Featured Image */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
-              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">फीचर्ड प्रतिमा</h3>
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Featured Image</h3>
               {formData.featuredImage ? (
                 <div className="relative">
                   <img
@@ -541,12 +541,12 @@ const ArticleForm = () => {
                     {uploadingImage ? (
                       <>
                         <div className="animate-spin rounded-full h-8 w-8 sm:h-10 sm:w-10 border-b-2 border-gray-900 mb-2"></div>
-                        <p className="text-xs sm:text-sm text-gray-500">अपलोड होत आहे...</p>
+                        <p className="text-xs sm:text-sm text-gray-500">Uploading...</p>
                       </>
                     ) : (
                       <>
                         <FiUpload className="w-8 h-8 sm:w-10 sm:h-10 text-gray-400 mb-2" />
-                        <p className="text-xs sm:text-sm text-gray-500">प्रतिमा अपलोड करा</p>
+                        <p className="text-xs sm:text-sm text-gray-500">Upload Image</p>
                       </>
                     )}
                   </div>

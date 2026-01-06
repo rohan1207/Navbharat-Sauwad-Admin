@@ -45,16 +45,16 @@ const colors = {
 
 const links = [
   { to: "/admin", label: "Dashboard", icon: <FiHome /> },
-  { to: "/admin/articles", label: "लेख व्यवस्थापन", icon: <FiBookOpen /> },
-  { to: "/admin/categories", label: "श्रेणी व्यवस्थापन", icon: <FiTag /> },
-  { to: "/admin/authors", label: "लेखक व्यवस्थापन", icon: <FiUsers /> },
-  { to: "/admin/media", label: "मीडिया लायब्ररी", icon: <FiImage /> },
-  { to: "/admin/epaper2", label: "ई-पेपर व्यवस्थापन", icon: <FiFileText /> },
-  { to: "/admin/ads", label: "जाहिरात व्यवस्थापन", icon: <FiImage /> },
-  { to: "/admin/photo-of-the-day", label: "आजचे फोटो", icon: <FiCamera /> },
+  { to: "/admin/articles", label: "Articles Management", icon: <FiBookOpen /> },
+  { to: "/admin/categories", label: "Categories Management", icon: <FiTag /> },
+  { to: "/admin/authors", label: "Authors Management", icon: <FiUsers /> },
+  { to: "/admin/media", label: "Media Library", icon: <FiImage /> },
+  { to: "/admin/epaper", label: "E-Paper Management", icon: <FiFileText /> },
+  { to: "/admin/ads", label: "Ads Management", icon: <FiImage /> },
+  { to: "/admin/photo-of-the-day", label: "Photo of the Day", icon: <FiCamera /> },
   { to: "/admin/shorts", label: "YouTube Shorts", icon: <FiVideo /> },
-  { to: "/admin/subscribers", label: "सबस्क्रायबर", icon: <FiMail /> },
-  { to: "/admin/settings", label: "सेटिंग्ज", icon: <FiSettings /> },
+  { to: "/admin/subscribers", label: "Subscribers", icon: <FiMail /> },
+  { to: "/admin/settings", label: "Settings", icon: <FiSettings /> },
 ];
 
 const Sidebar = () => {

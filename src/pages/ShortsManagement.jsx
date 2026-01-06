@@ -25,7 +25,7 @@ const ShortsManagement = () => {
       setShorts(data || []);
     } catch (error) {
       console.error('Error fetching shorts:', error);
-      toast.error('शॉर्ट्स लोड करताना त्रुटी');
+      toast.error('Error loading shorts');
     } finally {
       setLoading(false);
     }
@@ -35,7 +35,7 @@ const ShortsManagement = () => {
     e.preventDefault();
     
     if (!formData.youtubeUrl) {
-      toast.error('कृपया YouTube Shorts लिंक प्रविष्ट करा');
+      toast.error('Please enter YouTube Shorts link');
       return;
     }
 
@@ -45,13 +45,13 @@ const ShortsManagement = () => {
           method: 'PUT',
           body: formData
         });
-        toast.success('शॉर्ट अपडेट केला');
+        toast.success('Short updated successfully');
       } else {
         await apiFetch('/shorts/admin', {
           method: 'POST',
           body: formData
         });
-        toast.success('शॉर्ट जोडला');
+        toast.success('Short added successfully');
       }
 
       setShowForm(false);
@@ -64,7 +64,7 @@ const ShortsManagement = () => {
       fetchShorts();
     } catch (error) {
       console.error('Error saving short:', error);
-      const errorMessage = error.body?.error || error.message || 'शॉर्ट सेव्ह करताना त्रुटी';
+      const errorMessage = error.body?.error || error.message || 'Error saving short';
       toast.error(errorMessage);
     }
   };
@@ -80,7 +80,7 @@ const ShortsManagement = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('तुम्हाला खात्री आहे की तुम्ही हा शॉर्ट हटवू इच्छिता?')) {
+    if (!window.confirm('Are you sure you want to delete this short?')) {
       return;
     }
 
@@ -88,11 +88,11 @@ const ShortsManagement = () => {
       await apiFetch(`/shorts/admin/${id}`, {
         method: 'DELETE'
       });
-      toast.success('शॉर्ट हटवला');
+      toast.success('Short deleted successfully');
       fetchShorts();
     } catch (error) {
       console.error('Error deleting short:', error);
-      toast.error('शॉर्ट हटवताना त्रुटी');
+      toast.error('Error deleting short');
     }
   };
 
@@ -106,7 +106,7 @@ const ShortsManagement = () => {
           isActive: !short.isActive
         }
       });
-      toast.success(`शॉर्ट ${!short.isActive ? 'सक्रिय' : 'निष्क्रिय'} केला`);
+      toast.success(`Short ${!short.isActive ? 'activated' : 'deactivated'}`);
       fetchShorts();
     } catch (error) {
       console.error('Error toggling short:', error);
@@ -136,7 +136,7 @@ const ShortsManagement = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">YouTube Shorts व्यवस्थापन</h1>
+          <h1 className="text-3xl font-bold text-gray-900">YouTube Shorts Management</h1>
           <p className="text-gray-600 mt-1">Shorts Management</p>
         </div>
         <button
@@ -144,20 +144,20 @@ const ShortsManagement = () => {
           className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
         >
           <FiPlus className="w-5 h-5" />
-          नवीन शॉर्ट जोडा
+          Add New Short
         </button>
       </div>
 
       {showForm && (
         <div className="bg-white rounded-lg shadow-lg p-6 border border-gray-200">
           <h2 className="text-xl font-bold text-gray-900 mb-4">
-            {editingShort ? 'शॉर्ट संपादित करा' : 'नवीन शॉर्ट जोडा'}
+            {editingShort ? 'Edit Short' : 'Add New Short'}
           </h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 <FiYoutube className="inline w-4 h-4 mr-1" />
-                YouTube Shorts लिंक <span className="text-red-500">*</span>
+                YouTube Shorts Link <span className="text-red-500">*</span>
               </label>
               <input
                 type="url"
@@ -168,14 +168,14 @@ const ShortsManagement = () => {
                 required
               />
               <p className="text-xs text-gray-500 mt-1">
-                YouTube Shorts चा share लिंक पेस्ट करा
+                Paste the share link of YouTube Shorts
               </p>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  क्रम
+                  Order
                 </label>
                 <input
                   type="number"
@@ -193,7 +193,7 @@ const ShortsManagement = () => {
                     onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
                     className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                   />
-                  <span className="text-sm text-gray-700">सक्रिय</span>
+                  <span className="text-sm text-gray-700">Active</span>
                 </label>
               </div>
             </div>
@@ -203,14 +203,14 @@ const ShortsManagement = () => {
                 type="submit"
                 className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
               >
-                {editingShort ? 'अपडेट करा' : 'जोडा'}
+                {editingShort ? 'Update' : 'Add'}
               </button>
               <button
                 type="button"
                 onClick={handleCancel}
                 className="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300 transition-colors"
               >
-                रद्द करा
+                Cancel
               </button>
             </div>
           </form>
@@ -219,9 +219,9 @@ const ShortsManagement = () => {
 
       <div className="bg-white rounded-lg shadow-lg border border-gray-200">
         <div className="p-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">सर्व शॉर्ट्स</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-4">All Shorts</h2>
           {shorts.length === 0 ? (
-            <p className="text-gray-500 text-center py-8">अजून कोणतेही शॉर्ट जोडलेले नाहीत</p>
+            <p className="text-gray-500 text-center py-8">No shorts added yet</p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {shorts.map((short) => (

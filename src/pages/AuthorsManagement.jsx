@@ -31,7 +31,7 @@ const AuthorsManagement = () => {
       }
     } catch (error) {
       console.error('Error fetching authors:', error);
-      toast.error('लेखक लोड करताना त्रुटी');
+      toast.error('Error loading authors');
     } finally {
       setLoading(false);
     }
@@ -49,7 +49,7 @@ const AuthorsManagement = () => {
       
       return data.url;
     } catch (error) {
-      toast.error('प्रतिमा अपलोड करताना त्रुटी');
+      toast.error('Error uploading image');
       return null;
     }
   };
@@ -62,20 +62,20 @@ const AuthorsManagement = () => {
           method: 'PUT',
           body: formData
         });
-        toast.success('लेखक यशस्वीरित्या अपडेट केला');
+        toast.success('Author updated successfully');
       } else {
         await apiFetch('/admin/authors', {
           method: 'POST',
           body: formData
         });
-        toast.success('लेखक यशस्वीरित्या तयार केला');
+        toast.success('Author created successfully');
       }
       setShowForm(false);
       setEditingAuthor(null);
       setFormData({ name: '', nameEn: '', email: '', bio: '', designation: '', profileImage: '', isActive: true });
       fetchAuthors();
     } catch (error) {
-      toast.error('लेखक सेव्ह करताना त्रुटी');
+      toast.error('Error saving author');
     }
   };
 
@@ -94,16 +94,16 @@ const AuthorsManagement = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('तुम्हाला खात्री आहे की तुम्ही हा लेखक हटवू इच्छिता?')) {
+    if (!window.confirm('Are you sure you want to delete this author?')) {
       return;
     }
 
     try {
       await apiFetch(`/admin/authors/${id}`, { method: 'DELETE' });
-      toast.success('लेखक यशस्वीरित्या हटवला');
+      toast.success('Author deleted successfully');
       fetchAuthors();
     } catch (error) {
-      toast.error('लेखक हटवताना त्रुटी');
+      toast.error('Error deleting author');
     }
   };
 
@@ -112,8 +112,8 @@ const AuthorsManagement = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">लेखक व्यवस्थापन</h1>
-          <p className="text-gray-600 mt-1">लेखक तयार करा आणि व्यवस्थापित करा</p>
+          <h1 className="text-3xl font-bold text-gray-900">Authors Management</h1>
+          <p className="text-gray-600 mt-1">Create and manage authors</p>
         </div>
         <button
           onClick={() => {
@@ -124,7 +124,7 @@ const AuthorsManagement = () => {
           className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-black transition-colors shadow-sm"
         >
           <FiPlus className="w-5 h-5" />
-          <span>नवीन लेखक</span>
+          <span>New Author</span>
         </button>
       </div>
 
@@ -133,13 +133,13 @@ const AuthorsManagement = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">
-              {editingAuthor ? 'लेखक संपादन' : 'नवीन लेखक'}
+              {editingAuthor ? 'Edit Author' : 'New Author'}
             </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    नाव (मराठी) *
+                    Name (Marathi) *
                   </label>
                   <input
                     type="text"
@@ -151,7 +151,7 @@ const AuthorsManagement = () => {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    नाव (English)
+                    Name (English)
                   </label>
                   <input
                     type="text"
@@ -164,7 +164,7 @@ const AuthorsManagement = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    ईमेल
+                    Email
                   </label>
                   <input
                     type="email"
@@ -175,32 +175,32 @@ const AuthorsManagement = () => {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    पदनाम
+                    Designation
                   </label>
                   <input
                     type="text"
                     value={formData.designation}
                     onChange={(e) => setFormData({ ...formData, designation: e.target.value })}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
-                    placeholder="संवाददाता, संपादक, इ."
+                    placeholder="Reporter, Editor, etc."
                   />
                 </div>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                  बायो
+                  Bio
                 </label>
                 <textarea
                   value={formData.bio}
                   onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
                   rows={4}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
-                  placeholder="लेखकाबद्दल संक्षिप्त माहिती"
+                  placeholder="Brief information about the author"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  प्रोफाइल प्रतिमा
+                  Profile Image
                 </label>
                 {formData.profileImage ? (
                   <div className="relative inline-block">
@@ -220,7 +220,7 @@ const AuthorsManagement = () => {
                 ) : (
                   <label className="flex flex-col items-center justify-center w-32 h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer hover:bg-gray-50">
                     <FiUpload className="w-8 h-8 text-gray-400 mb-2" />
-                    <span className="text-xs text-gray-500">अपलोड करा</span>
+                    <span className="text-xs text-gray-500">Upload</span>
                     <input
                       type="file"
                       className="hidden"
@@ -245,14 +245,14 @@ const AuthorsManagement = () => {
                   onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
                   className="rounded"
                 />
-                <label className="text-sm text-gray-700">सक्रिय</label>
+                <label className="text-sm text-gray-700">Active</label>
               </div>
               <div className="flex gap-3">
                 <button
                   type="submit"
                   className="flex-1 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-black"
                 >
-                  {editingAuthor ? 'अपडेट करा' : 'तयार करा'}
+                  {editingAuthor ? 'Update' : 'Create'}
                 </button>
                 <button
                   type="button"
@@ -262,7 +262,7 @@ const AuthorsManagement = () => {
                   }}
                   className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
                 >
-                  रद्द करा
+                  Cancel
                 </button>
               </div>
             </form>
@@ -318,7 +318,7 @@ const AuthorsManagement = () => {
                     <span className={`ml-auto px-2 py-1 text-xs rounded ${
                       author.isActive ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
                     }`}>
-                      {author.isActive ? 'सक्रिय' : 'निष्क्रिय'}
+                      {author.isActive ? 'Active' : 'Inactive'}
                     </span>
                   </div>
                 </div>
@@ -327,7 +327,7 @@ const AuthorsManagement = () => {
           ))
         ) : (
           <div className="col-span-full text-center py-12">
-            <p className="text-gray-500">कोणतेही लेखक नाहीत</p>
+            <p className="text-gray-500">No authors found</p>
           </div>
         )}
       </div>

@@ -31,7 +31,7 @@ const PhotoOfTheDayManagement = () => {
       setPhotos(data || []);
     } catch (error) {
       console.error('Error fetching photos:', error);
-      toast.error('फोटो लोड करताना त्रुटी');
+      toast.error('Error loading photos');
     } finally {
       setLoading(false);
     }
@@ -53,12 +53,12 @@ const PhotoOfTheDayManagement = () => {
     e.preventDefault();
     
     if (!file && !editingPhoto?.image) {
-      toast.error('कृपया फोटो निवडा');
+      toast.error('Please select a photo');
       return;
     }
 
     if (!formData.caption) {
-      toast.error('कृपया कॅप्शन प्रविष्ट करा');
+      toast.error('Please enter caption');
       return;
     }
 
@@ -82,13 +82,13 @@ const PhotoOfTheDayManagement = () => {
           method: 'PUT',
           body: formDataToSend
         });
-        toast.success('फोटो अपडेट केला');
+        toast.success('Photo updated successfully');
       } else {
         result = await apiFetch('/photo-of-the-day', {
           method: 'POST',
           body: formDataToSend
         });
-        toast.success('फोटो जोडला');
+        toast.success('Photo added successfully');
       }
 
       setShowForm(false);
@@ -106,7 +106,7 @@ const PhotoOfTheDayManagement = () => {
       fetchPhotos();
     } catch (error) {
       console.error('Error saving photo:', error);
-      const errorMessage = error.body?.details || error.body?.error || error.message || 'फोटो सेव्ह करताना त्रुटी';
+      const errorMessage = error.body?.details || error.body?.error || error.message || 'Error saving photo';
       toast.error(errorMessage);
     } finally {
       setUploading(false);
@@ -128,7 +128,7 @@ const PhotoOfTheDayManagement = () => {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('तुम्हाला खात्री आहे की तुम्ही हा फोटो हटवू इच्छिता?')) {
+    if (!window.confirm('Are you sure you want to delete this photo?')) {
       return;
     }
 
@@ -136,11 +136,11 @@ const PhotoOfTheDayManagement = () => {
       await apiFetch(`/photo-of-the-day/${id}`, {
         method: 'DELETE'
       });
-      toast.success('फोटो हटवला');
+      toast.success('Photo deleted successfully');
       fetchPhotos();
     } catch (error) {
       console.error('Error deleting photo:', error);
-      toast.error('फोटो हटवताना त्रुटी');
+      toast.error('Error deleting photo');
     }
   };
 
@@ -171,7 +171,7 @@ const PhotoOfTheDayManagement = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">आजचे फोटो व्यवस्थापन</h1>
+          <h1 className="text-3xl font-bold text-gray-900">Photo of the Day Management</h1>
           <p className="text-gray-600 mt-1">Photo of the Day Management</p>
         </div>
         <button
@@ -179,20 +179,20 @@ const PhotoOfTheDayManagement = () => {
           className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
         >
           <FiPlus className="w-5 h-5" />
-          नवीन फोटो जोडा
+          Add New Photo
         </button>
       </div>
 
       {showForm && (
         <div className="bg-white rounded-lg shadow-lg p-6 border border-gray-200">
           <h2 className="text-xl font-bold text-gray-900 mb-4">
-            {editingPhoto ? 'फोटो संपादित करा' : 'नवीन फोटो जोडा'}
+            {editingPhoto ? 'Edit Photo' : 'Add New Photo'}
           </h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  फोटो <span className="text-red-500">*</span>
+                  Photo <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="file"
@@ -211,7 +211,7 @@ const PhotoOfTheDayManagement = () => {
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    कॅप्शन (मराठी) <span className="text-red-500">*</span>
+                    Caption (Marathi) <span className="text-red-500">*</span>
                   </label>
                   <textarea
                     value={formData.caption}
@@ -224,7 +224,7 @@ const PhotoOfTheDayManagement = () => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    कॅप्शन (English)
+                    Caption (English)
                   </label>
                   <textarea
                     value={formData.captionEn}
@@ -240,7 +240,7 @@ const PhotoOfTheDayManagement = () => {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   <FiUser className="inline w-4 h-4 mr-1" />
-                  फोटोग्राफर
+                  Photographer
                 </label>
                 <input
                   type="text"
@@ -253,7 +253,7 @@ const PhotoOfTheDayManagement = () => {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   <FiMapPin className="inline w-4 h-4 mr-1" />
-                  स्थान
+                  Location
                 </label>
                 <input
                   type="text"
@@ -266,7 +266,7 @@ const PhotoOfTheDayManagement = () => {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   <FiCalendar className="inline w-4 h-4 mr-1" />
-                  तारीख <span className="text-red-500">*</span>
+                  Date <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="date"
@@ -286,7 +286,7 @@ const PhotoOfTheDayManagement = () => {
                   onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
                   className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                 />
-                <span className="text-sm text-gray-700">सक्रिय</span>
+                <span className="text-sm text-gray-700">Active</span>
               </label>
             </div>
 
@@ -296,14 +296,14 @@ const PhotoOfTheDayManagement = () => {
                 disabled={uploading}
                 className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
               >
-                {uploading ? 'सेव्ह होत आहे...' : editingPhoto ? 'अपडेट करा' : 'जोडा'}
+                {uploading ? 'Saving...' : editingPhoto ? 'Update' : 'Add'}
               </button>
               <button
                 type="button"
                 onClick={handleCancel}
                 className="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300 transition-colors"
               >
-                रद्द करा
+                Cancel
               </button>
             </div>
           </form>
@@ -312,9 +312,9 @@ const PhotoOfTheDayManagement = () => {
 
       <div className="bg-white rounded-lg shadow-lg border border-gray-200">
         <div className="p-6">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">सर्व फोटो</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-4">All Photos</h2>
           {photos.length === 0 ? (
-            <p className="text-gray-500 text-center py-8">अजून कोणतेही फोटो जोडलेले नाहीत</p>
+            <p className="text-gray-500 text-center py-8">No photos added yet</p>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {photos.map((photo) => (

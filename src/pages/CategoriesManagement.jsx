@@ -32,7 +32,7 @@ const CategoriesManagement = () => {
       }
     } catch (error) {
       console.error('Error fetching categories:', error);
-      toast.error('श्रेणी लोड करताना त्रुटी');
+      toast.error('Error loading categories');
     } finally {
       setLoading(false);
     }
@@ -79,20 +79,20 @@ const CategoriesManagement = () => {
           method: 'PUT',
           body: formData
         });
-        toast.success('श्रेणी यशस्वीरित्या अपडेट केली');
+        toast.success('Category updated successfully');
       } else {
         await apiFetch('/admin/categories', {
           method: 'POST',
           body: formData
         });
-        toast.success('श्रेणी यशस्वीरित्या तयार केली');
+        toast.success('Category created successfully');
       }
       setShowForm(false);
       setEditingCategory(null);
       setFormData({ name: '', nameEn: '', parentId: '', displayOrder: 0, isActive: true });
       fetchCategories();
     } catch (error) {
-      toast.error('श्रेणी सेव्ह करताना त्रुटी');
+      toast.error('Error saving category');
     }
   };
 
@@ -109,17 +109,17 @@ const CategoriesManagement = () => {
   };
 
   const handleDelete = async (category) => {
-    if (!window.confirm('तुम्हाला खात्री आहे की तुम्ही ही श्रेणी हटवू इच्छिता?')) {
+    if (!window.confirm('Are you sure you want to delete this category?')) {
       return;
     }
 
     try {
       const categoryId = category._id || category.id;
       await apiFetch(`/admin/categories/${categoryId}`, { method: 'DELETE' });
-      toast.success('श्रेणी यशस्वीरित्या हटवली');
+      toast.success('Category deleted successfully');
       fetchCategories();
     } catch (error) {
-      toast.error('श्रेणी हटवताना त्रुटी');
+      toast.error('Error deleting category');
     }
   };
 
@@ -180,7 +180,7 @@ const CategoriesManagement = () => {
               <span className={`px-1.5 sm:px-2 py-1 text-xs rounded ${
                 category.isActive !== false ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
               }`}>
-                {category.isActive !== false ? 'सक्रिय' : 'निष्क्रिय'}
+                {category.isActive !== false ? 'Active' : 'Inactive'}
               </span>
               <button
                 onClick={() => handleEdit(category)}
@@ -213,8 +213,8 @@ const CategoriesManagement = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">श्रेणी व्यवस्थापन</h1>
-          <p className="text-sm sm:text-base text-gray-600 mt-1">श्रेणी तयार करा आणि व्यवस्थापित करा</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Categories Management</h1>
+          <p className="text-sm sm:text-base text-gray-600 mt-1">Create and manage categories</p>
         </div>
         <button
           onClick={() => {
@@ -225,7 +225,7 @@ const CategoriesManagement = () => {
           className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 text-sm sm:text-base bg-gray-900 text-white rounded-lg hover:bg-black transition-colors shadow-sm"
         >
           <FiPlus className="w-4 h-4 sm:w-5 sm:h-5" />
-          <span>नवीन श्रेणी</span>
+          <span>New Category</span>
         </button>
       </div>
 
@@ -234,12 +234,12 @@ const CategoriesManagement = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-xl p-4 sm:p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
             <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">
-              {editingCategory ? 'श्रेणी संपादन' : 'नवीन श्रेणी'}
+              {editingCategory ? 'Edit Category' : 'New Category'}
             </h2>
             <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
               <div>
                 <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
-                  नाव (मराठी) *
+                  Name (Marathi) *
                 </label>
                 <input
                   type="text"
@@ -251,7 +251,7 @@ const CategoriesManagement = () => {
               </div>
               <div>
                 <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
-                  नाव (English)
+                  Name (English)
                 </label>
                 <input
                   type="text"
@@ -262,14 +262,14 @@ const CategoriesManagement = () => {
               </div>
               <div>
                 <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
-                  मुख्य श्रेणी (उप-श्रेणीसाठी)
+                  Parent Category (for sub-category)
                 </label>
                 <select
                   value={formData.parentId}
                   onChange={(e) => setFormData({ ...formData, parentId: e.target.value })}
                   className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
                 >
-                  <option value="">मुख्य श्रेणी (None)</option>
+                  <option value="">Main Category (None)</option>
                   {allCategoriesFlat.filter(c => !c.parentId).map((cat) => (
                     <option key={cat.id} value={cat.id}>{cat.name}</option>
                   ))}
@@ -293,14 +293,14 @@ const CategoriesManagement = () => {
                   onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
                   className="rounded"
                 />
-                <label className="text-xs sm:text-sm text-gray-700">सक्रिय</label>
+                <label className="text-xs sm:text-sm text-gray-700">Active</label>
               </div>
               <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                 <button
                   type="submit"
                   className="flex-1 px-3 sm:px-4 py-2 text-sm sm:text-base bg-gray-900 text-white rounded-lg hover:bg-black"
                 >
-                  {editingCategory ? 'अपडेट करा' : 'तयार करा'}
+                  {editingCategory ? 'Update' : 'Create'}
                 </button>
                 <button
                   type="button"
@@ -310,7 +310,7 @@ const CategoriesManagement = () => {
                   }}
                   className="px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg hover:bg-gray-50"
                 >
-                  रद्द करा
+                  Cancel
                 </button>
               </div>
             </form>
@@ -330,7 +330,7 @@ const CategoriesManagement = () => {
           </div>
         ) : (
           <div className="text-center py-12">
-            <p className="text-gray-500">कोणतीही श्रेणी नाही</p>
+            <p className="text-gray-500">No categories found</p>
           </div>
         )}
       </div>
