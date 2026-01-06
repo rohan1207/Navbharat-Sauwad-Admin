@@ -428,6 +428,18 @@ const EPaperManagement2 = () => {
     );
   }
 
+  // Show loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-white p-4 md:p-8 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading e-papers...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-white p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
@@ -660,14 +672,16 @@ const EPaperManagement2 = () => {
         <div className="bg-white rounded-xl shadow-md p-6">
           <h2 className="text-xl font-semibold text-gray-800 mb-4">Existing E-Papers</h2>
           
-          {epapers.length === 0 ? (
+          {!epapers || !Array.isArray(epapers) || epapers.length === 0 ? (
             <div className="text-center py-12 text-gray-500">
               <FiFile className="w-16 h-16 mx-auto mb-4 opacity-50" />
               <p>No e-papers uploaded yet</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {epapers.map((epaper) => (
+              {epapers.map((epaper) => {
+                if (!epaper || !epaper.id) return null; // Safety check
+                return (
                 <div
                   key={epaper.id}
                   className="border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow"
@@ -713,18 +727,21 @@ const EPaperManagement2 = () => {
                         </button>
                       </div>
                     )}
-                    <p className="text-sm text-gray-600">{epaper.date}</p>
+                    <p className="text-sm text-gray-600">{epaper.date || 'N/A'}</p>
                     <p className="text-xs text-gray-500 mt-1">
-                      {epaper.pages.length} पृष्ठे
+                      {epaper.pages && Array.isArray(epaper.pages) ? epaper.pages.length : 0} पृष्ठे
                     </p>
                   </div>
                   
-                  {epaper.pages[0] && (
+                  {epaper.pages && Array.isArray(epaper.pages) && epaper.pages[0] && epaper.pages[0].image && (
                     <div className="mb-3">
                       <img
                         src={epaper.pages[0].image}
                         alt="First page"
                         className="w-full h-32 object-cover rounded"
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                        }}
                       />
                     </div>
                   )}
@@ -745,7 +762,8 @@ const EPaperManagement2 = () => {
                     </button>
                   </div>
                 </div>
-              ))}
+              );
+              })}
             </div>
           )}
         </div>
