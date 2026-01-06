@@ -232,59 +232,59 @@ const ArticleForm = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
             {isEdit ? 'लेख संपादन' : 'नवीन लेख'}
           </h1>
-          <p className="text-gray-600 mt-1">
+          <p className="text-sm sm:text-base text-gray-600 mt-1">
             {isEdit ? 'लेख संपादित करा' : 'नवीन लेख तयार करा'}
           </p>
         </div>
-        <div className="flex gap-3">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full sm:w-auto">
           <button
             onClick={(e) => handleSubmit(e, false)}
             disabled={loading}
-            className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50"
+            className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50"
           >
-            <FiSave className="w-5 h-5" />
+            <FiSave className="w-4 h-4 sm:w-5 sm:h-5" />
             <span>ड्राफ्ट जतन करा</span>
           </button>
           <button
             onClick={(e) => handleSubmit(e, true)}
             disabled={loading}
-            className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-black disabled:opacity-50"
+            className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 text-sm sm:text-base bg-gray-900 text-white rounded-lg hover:bg-black disabled:opacity-50"
           >
-            <FiSend className="w-5 h-5" />
+            <FiSend className="w-4 h-4 sm:w-5 sm:h-5" />
             <span>प्रकाशित करा</span>
           </button>
         </div>
       </div>
 
-      <form onSubmit={(e) => handleSubmit(e, false)} className="space-y-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <form onSubmit={(e) => handleSubmit(e, false)} className="space-y-4 sm:space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
           {/* Main Content */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-4 sm:space-y-6">
             {/* Title */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
                 शीर्षक (मराठी) *
               </label>
               <input
                 type="text"
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent"
                 placeholder="लेखाचे शीर्षक प्रविष्ट करा"
                 required
               />
             </div>
 
             {/* Content Editor */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
                 लेख सामग्री *
               </label>
               {process.env.NODE_ENV === 'development' && (
@@ -300,7 +300,7 @@ const ArticleForm = () => {
                 value={formData.content}
                 onEditorChange={(content) => setFormData({ ...formData, content })}
                 init={{
-                  height: 500,
+                  height: window.innerWidth < 640 ? 300 : 500,
                   menubar: true,
                   plugins: [
                     'advlist', 'autolink', 'lists', 'link', 'image', 'charmap',
@@ -322,30 +322,30 @@ const ArticleForm = () => {
             </div>
 
             {/* SEO Settings */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">SEO सेटिंग्ज</h3>
-              <div className="space-y-4">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">SEO सेटिंग्ज</h3>
+              <div className="space-y-3 sm:space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
                     Meta Keywords
                   </label>
                   <input
                     type="text"
                     value={formData.metaKeywords}
                     onChange={(e) => setFormData({ ...formData, metaKeywords: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
+                    className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
                     placeholder="keyword1, keyword2, keyword3"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
                     Meta Description
                   </label>
                   <textarea
                     value={formData.metaDescription}
                     onChange={(e) => setFormData({ ...formData, metaDescription: e.target.value })}
                     rows={3}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
+                    className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
                     placeholder="SEO description"
                   />
                 </div>
@@ -354,21 +354,21 @@ const ArticleForm = () => {
           </div>
 
           {/* Sidebar */}
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             {/* Publishing Options */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">प्रकाशन पर्याय</h3>
-              <div className="space-y-4">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">प्रकाशन पर्याय</h3>
+              <div className="space-y-3 sm:space-y-4">
                 {/* Article Date */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
                     तारीख *
                   </label>
                   <input
                     type="date"
                     value={formData.date}
                     onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+                    className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent"
                     required
                   />
                   <p className="text-xs text-gray-500 mt-1">
@@ -377,7 +377,7 @@ const ArticleForm = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
                     स्थिती
                   </label>
                   <select
@@ -391,7 +391,7 @@ const ArticleForm = () => {
                         scheduledAt: newStatus !== 'pending' ? '' : formData.scheduledAt
                       });
                     }}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
+                    className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
                   >
                     <option value="draft">ड्राफ्ट</option>
                     <option value="pending">प्रलंबित (शेड्यूल केलेले)</option>
@@ -402,7 +402,7 @@ const ArticleForm = () => {
                 {/* Scheduled Date/Time Picker - Show only when status is pending */}
                 {formData.status === 'pending' && (
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
                       प्रकाशन तारीख आणि वेळ *
                     </label>
                     <input
@@ -416,7 +416,7 @@ const ArticleForm = () => {
                         });
                       }}
                       min={new Date().toISOString().slice(0, 16)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
+                      className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
                       required={formData.status === 'pending'}
                     />
                     {formData.scheduledAt && (
@@ -438,7 +438,7 @@ const ArticleForm = () => {
                       onChange={(e) => setFormData({ ...formData, isBreaking: e.target.checked })}
                       className="rounded"
                     />
-                    <span className="text-sm text-gray-700">ब्रेकिंग न्यूज</span>
+                    <span className="text-xs sm:text-sm text-gray-700">ब्रेकिंग न्यूज</span>
                   </label>
                   <label className="flex items-center gap-2">
                     <input
@@ -447,24 +447,24 @@ const ArticleForm = () => {
                       onChange={(e) => setFormData({ ...formData, isFeatured: e.target.checked })}
                       className="rounded"
                     />
-                    <span className="text-sm text-gray-700">फीचर्ड लेख</span>
+                    <span className="text-xs sm:text-sm text-gray-700">फीचर्ड लेख</span>
                   </label>
                 </div>
               </div>
             </div>
 
             {/* Category Selection */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">श्रेणी</h3>
-              <div className="space-y-4">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">श्रेणी</h3>
+              <div className="space-y-3 sm:space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
                     मुख्य श्रेणी *
                   </label>
                   <select
                     value={formData.categoryId}
                     onChange={(e) => setFormData({ ...formData, categoryId: e.target.value, subCategoryId: '' })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
+                    className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
                     required
                   >
                     <option value="">श्रेणी निवडा</option>
@@ -478,13 +478,13 @@ const ArticleForm = () => {
                 </div>
                 {subCategories.length > 0 && (
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-2">
                       उप-श्रेणी
                     </label>
                     <select
                       value={formData.subCategoryId}
                       onChange={(e) => setFormData({ ...formData, subCategoryId: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
+                      className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
                     >
                       <option value="">उप-श्रेणी निवडा</option>
                       {subCategories.map((cat) => {
@@ -500,12 +500,12 @@ const ArticleForm = () => {
             </div>
 
             {/* Author Selection */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">लेखक</h3>
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">लेखक</h3>
               <select
                 value={formData.authorId}
                 onChange={(e) => setFormData({ ...formData, authorId: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
+                    className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
               >
                 <option value="">लेखक निवडा</option>
                 {authors.map((author) => {
@@ -518,35 +518,35 @@ const ArticleForm = () => {
             </div>
 
             {/* Featured Image */}
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">फीचर्ड प्रतिमा</h3>
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">फीचर्ड प्रतिमा</h3>
               {formData.featuredImage ? (
                 <div className="relative">
                   <img
                     src={formData.featuredImage}
                     alt="Featured"
-                    className="w-full h-48 object-cover rounded-lg"
+                    className="w-full h-40 sm:h-48 object-cover rounded-lg"
                   />
                   <button
                     type="button"
                     onClick={() => setFormData({ ...formData, featuredImage: '' })}
-                    className="absolute top-2 right-2 p-2 bg-gray-900 text-white rounded-full hover:bg-black"
+                    className="absolute top-2 right-2 p-1.5 sm:p-2 bg-gray-900 text-white rounded-full hover:bg-black"
                   >
-                    <FiX className="w-4 h-4" />
+                    <FiX className="w-3 h-3 sm:w-4 sm:h-4" />
                   </button>
                 </div>
               ) : (
-                <label className={`flex flex-col items-center justify-center w-full h-48 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer hover:bg-gray-50 ${uploadingImage ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                <label className={`flex flex-col items-center justify-center w-full h-40 sm:h-48 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer hover:bg-gray-50 ${uploadingImage ? 'opacity-50 cursor-not-allowed' : ''}`}>
                   <div className="flex flex-col items-center justify-center pt-5 pb-6">
                     {uploadingImage ? (
                       <>
-                        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-gray-900 mb-2"></div>
-                        <p className="text-sm text-gray-500">अपलोड होत आहे...</p>
+                        <div className="animate-spin rounded-full h-8 w-8 sm:h-10 sm:w-10 border-b-2 border-gray-900 mb-2"></div>
+                        <p className="text-xs sm:text-sm text-gray-500">अपलोड होत आहे...</p>
                       </>
                     ) : (
                       <>
-                        <FiUpload className="w-10 h-10 text-gray-400 mb-2" />
-                        <p className="text-sm text-gray-500">प्रतिमा अपलोड करा</p>
+                        <FiUpload className="w-8 h-8 sm:w-10 sm:h-10 text-gray-400 mb-2" />
+                        <p className="text-xs sm:text-sm text-gray-500">प्रतिमा अपलोड करा</p>
                       </>
                     )}
                   </div>

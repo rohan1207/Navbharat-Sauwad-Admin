@@ -151,48 +151,48 @@ const CategoriesManagement = () => {
       return (
         <div key={categoryId}>
           <div
-            className={`flex items-center gap-3 p-3 border-b border-gray-200 hover:bg-gray-50 ${
-              level > 0 ? 'pl-8' : ''
+            className={`flex items-center gap-2 sm:gap-3 p-2 sm:p-3 border-b border-gray-200 hover:bg-gray-50 ${
+              level > 0 ? 'pl-4 sm:pl-8' : ''
             }`}
           >
             {category.children && category.children.length > 0 && (
               <button
                 onClick={() => toggleExpand(category)}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-gray-400 hover:text-gray-600 flex-shrink-0"
               >
                 {expandedCategories.has(categoryId) ? (
-                  <FiChevronDown className="w-5 h-5" />
+                  <FiChevronDown className="w-4 h-4 sm:w-5 sm:h-5" />
                 ) : (
-                  <FiChevronRight className="w-5 h-5" />
+                  <FiChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
                 )}
               </button>
             )}
             {(!category.children || category.children.length === 0) && (
-              <span className="w-5"></span>
+              <span className="w-4 sm:w-5"></span>
             )}
-            <div className="flex-1">
-              <div className="font-medium text-gray-900">{category.name || 'No Name'}</div>
+            <div className="flex-1 min-w-0">
+              <div className="font-medium text-sm sm:text-base text-gray-900 truncate">{category.name || 'No Name'}</div>
               {category.nameEn && (
-                <div className="text-sm text-gray-500">{category.nameEn}</div>
+                <div className="text-xs sm:text-sm text-gray-500 truncate">{category.nameEn}</div>
               )}
             </div>
-            <div className="flex items-center gap-2">
-              <span className={`px-2 py-1 text-xs rounded ${
+            <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
+              <span className={`px-1.5 sm:px-2 py-1 text-xs rounded ${
                 category.isActive !== false ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
               }`}>
                 {category.isActive !== false ? 'सक्रिय' : 'निष्क्रिय'}
               </span>
               <button
                 onClick={() => handleEdit(category)}
-                className="p-2 text-blue-600 hover:bg-blue-50 rounded"
+                className="p-1.5 sm:p-2 text-blue-600 hover:bg-blue-50 rounded"
               >
-                <FiEdit className="w-4 h-4" />
+                <FiEdit className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </button>
               <button
                 onClick={() => handleDelete(category)}
-                className="p-2 text-gray-900 hover:bg-gray-50 rounded"
+                className="p-1.5 sm:p-2 text-gray-900 hover:bg-gray-50 rounded"
               >
-                <FiTrash2 className="w-4 h-4" />
+                <FiTrash2 className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </button>
             </div>
           </div>
@@ -209,12 +209,12 @@ const CategoriesManagement = () => {
   const allCategoriesFlat = getAllCategoriesFlat(categories);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">श्रेणी व्यवस्थापन</h1>
-          <p className="text-gray-600 mt-1">श्रेणी तयार करा आणि व्यवस्थापित करा</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">श्रेणी व्यवस्थापन</h1>
+          <p className="text-sm sm:text-base text-gray-600 mt-1">श्रेणी तयार करा आणि व्यवस्थापित करा</p>
         </div>
         <button
           onClick={() => {
@@ -222,52 +222,52 @@ const CategoriesManagement = () => {
             setEditingCategory(null);
             setFormData({ name: '', nameEn: '', parentId: '', displayOrder: 0, isActive: true });
           }}
-          className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-black transition-colors shadow-sm"
+          className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 text-sm sm:text-base bg-gray-900 text-white rounded-lg hover:bg-black transition-colors shadow-sm"
         >
-          <FiPlus className="w-5 h-5" />
+          <FiPlus className="w-4 h-4 sm:w-5 sm:h-5" />
           <span>नवीन श्रेणी</span>
         </button>
       </div>
 
       {/* Category Form Modal */}
       {showForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-md">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg shadow-xl p-4 sm:p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">
               {editingCategory ? 'श्रेणी संपादन' : 'नवीन श्रेणी'}
             </h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                   नाव (मराठी) *
                 </label>
                 <input
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
+                  className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
                   required
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                   नाव (English)
                 </label>
                 <input
                   type="text"
                   value={formData.nameEn}
                   onChange={(e) => setFormData({ ...formData, nameEn: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
+                  className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                   मुख्य श्रेणी (उप-श्रेणीसाठी)
                 </label>
                 <select
                   value={formData.parentId}
                   onChange={(e) => setFormData({ ...formData, parentId: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
+                  className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
                 >
                   <option value="">मुख्य श्रेणी (None)</option>
                   {allCategoriesFlat.filter(c => !c.parentId).map((cat) => (
@@ -276,14 +276,14 @@ const CategoriesManagement = () => {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
                   Display Order
                 </label>
                 <input
                   type="number"
                   value={formData.displayOrder}
                   onChange={(e) => setFormData({ ...formData, displayOrder: parseInt(e.target.value) || 0 })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
+                  className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
                 />
               </div>
               <div className="flex items-center gap-2">
@@ -293,12 +293,12 @@ const CategoriesManagement = () => {
                   onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
                   className="rounded"
                 />
-                <label className="text-sm text-gray-700">सक्रिय</label>
+                <label className="text-xs sm:text-sm text-gray-700">सक्रिय</label>
               </div>
-              <div className="flex gap-3">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
                 <button
                   type="submit"
-                  className="flex-1 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-black"
+                  className="flex-1 px-3 sm:px-4 py-2 text-sm sm:text-base bg-gray-900 text-white rounded-lg hover:bg-black"
                 >
                   {editingCategory ? 'अपडेट करा' : 'तयार करा'}
                 </button>
@@ -308,7 +308,7 @@ const CategoriesManagement = () => {
                     setShowForm(false);
                     setEditingCategory(null);
                   }}
-                  className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
+                  className="px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg hover:bg-gray-50"
                 >
                   रद्द करा
                 </button>

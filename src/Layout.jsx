@@ -8,7 +8,7 @@ const Layout = () => {
   return (
     <div className="flex min-h-screen bg-gray-100 text-gray-900">
       <Sidebar />
-      <main className="flex-1 p-6 overflow-y-auto bg-white">
+      <main className="flex-1 p-3 sm:p-4 md:p-6 overflow-y-auto bg-white lg:ml-0">
         <Outlet />
       </main>
       <ToastContainer
@@ -21,6 +21,7 @@ const Layout = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
+        className="!text-sm sm:!text-base"
       />
     </div>
   );

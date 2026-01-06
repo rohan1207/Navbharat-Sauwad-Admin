@@ -2,7 +2,6 @@ import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { WebSocketProvider } from "./context/WebSocketContext";
-import MobileMessage from "./components/MobileMessage";
 
 // Admin imports
 import Login from "./pages/Login";
@@ -25,7 +24,6 @@ const App = () => {
   return (
     <AuthProvider>
       <WebSocketProvider>
-        <MobileMessage />
         <React.Suspense
           fallback={<div className="p-6 text-center">Loading admin...</div>}
         >

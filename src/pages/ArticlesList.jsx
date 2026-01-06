@@ -96,39 +96,39 @@ const ArticlesList = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">लेख व्यवस्थापन</h1>
-          <p className="text-gray-600 mt-1">सर्व लेख पहा आणि व्यवस्थापित करा</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">लेख व्यवस्थापन</h1>
+          <p className="text-sm sm:text-base text-gray-600 mt-1">सर्व लेख पहा आणि व्यवस्थापित करा</p>
         </div>
         <Link
           to="/admin/articles/create"
-          className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-black transition-colors shadow-sm"
+          className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-black transition-colors shadow-sm text-sm sm:text-base"
         >
-          <FiPlusCircle className="w-5 h-5" />
+          <FiPlusCircle className="w-4 h-4 sm:w-5 sm:h-5" />
           <span>नवीन लेख</span>
         </Link>
       </div>
 
       {/* Filters */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="relative">
-            <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-3 sm:p-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+          <div className="relative sm:col-span-2 lg:col-span-1">
+            <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4 sm:w-5 sm:h-5" />
             <input
               type="text"
               placeholder="लेख शोधा..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+              className="w-full pl-9 sm:pl-10 pr-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent"
             />
           </div>
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+            className="px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent"
           >
             <option value="">सर्व श्रेणी</option>
             {categories.map((cat) => {
@@ -141,7 +141,7 @@ const ArticlesList = () => {
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+            className="px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900 focus:border-transparent"
           >
             <option value="">सर्व स्थिती</option>
             <option value="published">प्रकाशित</option>
@@ -154,15 +154,15 @@ const ArticlesList = () => {
               setSelectedCategory('');
               setSelectedStatus('');
             }}
-            className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            className="px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors flex items-center justify-center gap-2"
           >
-            <FiFilter className="w-5 h-5 inline mr-2" />
-            साफ करा
+            <FiFilter className="w-4 h-4 sm:w-5 sm:h-5" />
+            <span>साफ करा</span>
           </button>
         </div>
       </div>
 
-      {/* Articles Table */}
+      {/* Articles Table/List */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
         {loading ? (
           <div className="flex items-center justify-center py-12">
@@ -170,32 +170,33 @@ const ArticlesList = () => {
           </div>
         ) : articles.length > 0 ? (
           <>
-            <div className="overflow-x-auto">
+            {/* Desktop Table View */}
+            <div className="hidden lg:block overflow-x-auto">
               <table className="w-full">
                 <thead className="bg-gray-50 border-b border-gray-200">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       <input type="checkbox" className="rounded" />
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       लेख
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       श्रेणी
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       लेखक
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       स्थिती
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       दृश्ये
                     </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 lg:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       तारीख
                     </th>
-                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="px-4 lg:px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                       क्रिया
                     </th>
                   </tr>
@@ -203,35 +204,33 @@ const ArticlesList = () => {
                 <tbody className="bg-white divide-y divide-gray-200">
                   {articles
                     .filter(article => {
-                      // Filter out articles without valid IDs
                       const articleId = article._id || article.id;
                       return articleId && articleId !== 'undefined' && articleId !== 'null';
                     })
                     .map((article) => {
-                      // Get article ID (handle both _id and id)
                       const articleId = article._id || article.id;
                       return (
                         <tr key={articleId} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="px-4 lg:px-6 py-4 whitespace-nowrap">
                         <input type="checkbox" className="rounded" />
                       </td>
-                      <td className="px-6 py-4">
+                      <td className="px-4 lg:px-6 py-4">
                         <div className="flex items-center gap-3">
                           {article.featuredImage && (
                             <img
                               src={article.featuredImage}
                               alt={article.title}
-                              className="w-12 h-12 object-cover rounded"
+                              className="w-12 h-12 object-cover rounded flex-shrink-0"
                             />
                           )}
-                          <div>
+                          <div className="min-w-0">
                             <Link
                               to={`/admin/articles/edit/${articleId}`}
-                              className="font-medium text-gray-900 hover:text-gray-700"
+                              className="font-medium text-sm sm:text-base text-gray-900 hover:text-gray-700 block truncate"
                             >
                               {article.title}
                             </Link>
-                            <p className="text-sm text-gray-500 line-clamp-1 mt-1">
+                            <p className="text-xs sm:text-sm text-gray-500 line-clamp-1 mt-1">
                               {(article.summary && article.summary.trim()) ||
                                 (article.content
                                   ? article.content.replace(/<[^>]+>/g, ' ').slice(0, 140)
@@ -240,15 +239,15 @@ const ArticlesList = () => {
                           </div>
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="px-4 lg:px-6 py-4 whitespace-nowrap">
                         <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded">
                           {article.categoryId?.name || article.category?.name || 'N/A'}
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                      <td className="px-4 lg:px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                         {article.authorId?.name || article.author?.name || 'N/A'}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="px-4 lg:px-6 py-4 whitespace-nowrap">
                         <span className={`px-2 py-1 text-xs font-medium rounded ${
                           article.status === 'published'
                             ? 'bg-green-100 text-green-800'
@@ -260,13 +259,13 @@ const ArticlesList = () => {
                            article.status === 'draft' ? 'ड्राफ्ट' : 'प्रलंबित'}
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                      <td className="px-4 lg:px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                         {article.views || 0}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                      <td className="px-4 lg:px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                         {new Date(article.date || article.createdAt || article.publishedAt).toLocaleDateString('mr-IN')}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <td className="px-4 lg:px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <div className="flex items-center justify-end gap-2">
                           <Link
                             to={`/admin/articles/edit/${articleId}`}
@@ -290,24 +289,95 @@ const ArticlesList = () => {
                 </tbody>
               </table>
             </div>
+
+            {/* Mobile Card View */}
+            <div className="lg:hidden divide-y divide-gray-200">
+              {articles
+                .filter(article => {
+                  const articleId = article._id || article.id;
+                  return articleId && articleId !== 'undefined' && articleId !== 'null';
+                })
+                .map((article) => {
+                  const articleId = article._id || article.id;
+                  return (
+                    <div key={articleId} className="p-4 hover:bg-gray-50">
+                      <div className="flex items-start gap-3">
+                        {article.featuredImage && (
+                          <img
+                            src={article.featuredImage}
+                            alt={article.title}
+                            className="w-16 h-16 object-cover rounded flex-shrink-0"
+                          />
+                        )}
+                        <div className="flex-1 min-w-0">
+                          <Link
+                            to={`/admin/articles/edit/${articleId}`}
+                            className="font-medium text-sm text-gray-900 hover:text-gray-700 block mb-2 line-clamp-2"
+                          >
+                            {article.title}
+                          </Link>
+                          <div className="flex flex-wrap items-center gap-2 mb-2">
+                            <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded">
+                              {article.categoryId?.name || article.category?.name || 'N/A'}
+                            </span>
+                            <span className={`px-2 py-1 text-xs font-medium rounded ${
+                              article.status === 'published'
+                                ? 'bg-green-100 text-green-800'
+                                : article.status === 'draft'
+                                ? 'bg-yellow-100 text-yellow-800'
+                                : 'bg-gray-100 text-gray-800'
+                            }`}>
+                              {article.status === 'published' ? 'प्रकाशित' : 
+                               article.status === 'draft' ? 'ड्राफ्ट' : 'प्रलंबित'}
+                            </span>
+                          </div>
+                          <div className="flex flex-wrap items-center gap-3 text-xs text-gray-600 mb-2">
+                            <span>लेखक: {article.authorId?.name || article.author?.name || 'N/A'}</span>
+                            <span>•</span>
+                            <span>दृश्ये: {article.views || 0}</span>
+                            <span>•</span>
+                            <span>{new Date(article.date || article.createdAt || article.publishedAt).toLocaleDateString('mr-IN')}</span>
+                          </div>
+                          <div className="flex items-center gap-3 mt-2">
+                            <Link
+                              to={`/admin/articles/edit/${articleId}`}
+                              className="flex items-center gap-1 text-blue-600 hover:text-blue-900 text-sm"
+                            >
+                              <FiEdit className="w-4 h-4" />
+                              <span>संपादन</span>
+                            </Link>
+                            <button
+                              onClick={() => handleDelete(articleId)}
+                              className="flex items-center gap-1 text-gray-900 hover:text-black text-sm"
+                            >
+                              <FiTrash2 className="w-4 h-4" />
+                              <span>हटवा</span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
             {/* Pagination */}
             {totalPages > 1 && (
-              <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
-                <div className="text-sm text-gray-600">
+              <div className="px-4 sm:px-6 py-4 border-t border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-0">
+                <div className="text-xs sm:text-sm text-gray-600">
                   पृष्ठ {page} पैकी {totalPages}
                 </div>
                 <div className="flex gap-2">
                   <button
                     onClick={() => setPage(p => Math.max(1, p - 1))}
                     disabled={page === 1}
-                    className="px-4 py-2 border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+                    className="px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
                   >
                     मागील
                   </button>
                   <button
                     onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                     disabled={page === totalPages}
-                    className="px-4 py-2 border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+                    className="px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
                   >
                     पुढील
                   </button>
@@ -316,13 +386,13 @@ const ArticlesList = () => {
             )}
           </>
         ) : (
-          <div className="text-center py-12">
-            <p className="text-gray-500 mb-4">कोणतेही लेख सापडले नाहीत</p>
+          <div className="text-center py-8 sm:py-12 px-4">
+            <p className="text-sm sm:text-base text-gray-500 mb-4">कोणतेही लेख सापडले नाहीत</p>
             <Link
               to="/admin/articles/create"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-black"
+              className="inline-flex items-center gap-2 px-3 sm:px-4 py-2 text-sm sm:text-base bg-gray-900 text-white rounded-lg hover:bg-black"
             >
-              <FiPlusCircle className="w-5 h-5" />
+              <FiPlusCircle className="w-4 h-4 sm:w-5 sm:h-5" />
               <span>नवीन लेख तयार करा</span>
             </Link>
           </div>

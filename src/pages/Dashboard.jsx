@@ -244,45 +244,45 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
         <div>
-          <div className="flex items-center gap-3">
-            <h1 className="text-3xl font-bold text-gray-900">डॅशबोर्ड</h1>
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">डॅशबोर्ड</h1>
             {connected && (
-              <span className="flex items-center gap-2 px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
+              <span className="flex items-center gap-2 px-2 sm:px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs sm:text-sm">
                 <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
                 Real-time
               </span>
             )}
           </div>
-          <p className="text-gray-600 mt-1">आपल्या वेबसाइटचा अवलोकन</p>
+          <p className="text-sm sm:text-base text-gray-600 mt-1">आपल्या वेबसाइटचा अवलोकन</p>
         </div>
         <Link
           to="/admin/articles/create"
-          className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-black transition-colors shadow-sm"
+          className="flex items-center justify-center gap-2 px-3 sm:px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-black transition-colors shadow-sm text-sm sm:text-base"
         >
-          <FiPlusCircle className="w-5 h-5" />
+          <FiPlusCircle className="w-4 h-4 sm:w-5 sm:h-5" />
           <span>नवीन लेख</span>
         </Link>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {statCards.map((stat, index) => (
           <Link
             key={index}
             to={stat.link}
-            className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow"
+            className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 hover:shadow-md transition-shadow"
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600 mb-1">{stat.title}</p>
-                <p className="text-3xl font-bold text-gray-900">{stat.value}</p>
+                <p className="text-xs sm:text-sm text-gray-600 mb-1">{stat.title}</p>
+                <p className="text-2xl sm:text-3xl font-bold text-gray-900">{stat.value}</p>
               </div>
-              <div className={`${stat.color} text-white p-3 rounded-lg`}>
-                {stat.icon}
+              <div className={`${stat.color} text-white p-2 sm:p-3 rounded-lg`}>
+                <div className="w-5 h-5 sm:w-6 sm:h-6">{stat.icon}</div>
               </div>
             </div>
           </Link>
@@ -290,71 +290,71 @@ const Dashboard = () => {
       </div>
 
       {/* Quick Actions */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">द्रुत क्रिया</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
+        <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">द्रुत क्रिया</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           <Link
             to="/admin/articles/create"
-            className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+            className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
           >
-            <FiPlusCircle className="w-5 h-5 text-gray-900" />
-            <span className="font-medium">नवीन लेख</span>
+            <FiPlusCircle className="w-4 h-4 sm:w-5 sm:h-5 text-gray-900 flex-shrink-0" />
+            <span className="font-medium text-sm sm:text-base">नवीन लेख</span>
           </Link>
           <Link
             to="/admin/categories"
-            className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+            className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
           >
-            <FiFileText className="w-5 h-5 text-blue-600" />
-            <span className="font-medium">श्रेणी व्यवस्थापन</span>
+            <FiFileText className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 flex-shrink-0" />
+            <span className="font-medium text-sm sm:text-base">श्रेणी व्यवस्थापन</span>
           </Link>
           <Link
             to="/admin/media"
-            className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+            className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
           >
-            <FiImage className="w-5 h-5 text-green-600" />
-            <span className="font-medium">मीडिया लायब्ररी</span>
+            <FiImage className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 flex-shrink-0" />
+            <span className="font-medium text-sm sm:text-base">मीडिया लायब्ररी</span>
           </Link>
           <Link
             to="/admin/epaper2"
-            className="flex items-center gap-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+            className="flex items-center gap-2 sm:gap-3 p-3 sm:p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
           >
-            <FiFile className="w-5 h-5 text-purple-600" />
-            <span className="font-medium">ई-पेपर</span>
+            <FiFile className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600 flex-shrink-0" />
+            <span className="font-medium text-sm sm:text-base">ई-पेपर</span>
           </Link>
         </div>
       </div>
 
       {/* Recent Articles */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-gray-900">अलीकडील लेख</h2>
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0 mb-3 sm:mb-4">
+          <h2 className="text-lg sm:text-xl font-semibold text-gray-900">अलीकडील लेख</h2>
           <Link
             to="/admin/articles"
-            className="text-gray-900 hover:text-black text-sm font-medium"
+            className="text-gray-900 hover:text-black text-xs sm:text-sm font-medium"
           >
             सर्व पहा →
           </Link>
         </div>
         {recentArticles.length > 0 ? (
-          <div className="space-y-3">
+          <div className="space-y-2 sm:space-y-3">
             {recentArticles.map((article) => (
               <Link
                 key={article.id}
                 to={`/admin/articles/edit/${article.id}`}
-                className="flex items-center gap-4 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                className="flex items-center gap-2 sm:gap-4 p-3 sm:p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
               >
                 {article.featuredImage && (
                   <img
                     src={article.featuredImage}
                     alt={article.title}
-                    className="w-16 h-16 object-cover rounded"
+                    className="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded flex-shrink-0"
                   />
                 )}
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-medium text-gray-900 truncate">{article.title}</h3>
-                  <div className="flex items-center gap-4 mt-1 text-sm text-gray-600">
+                  <h3 className="font-medium text-sm sm:text-base text-gray-900 truncate">{article.title}</h3>
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-4 mt-1 text-xs sm:text-sm text-gray-600">
                     <span className="flex items-center gap-1">
-                      <FiClock className="w-4 h-4" />
+                      <FiClock className="w-3 h-3 sm:w-4 sm:h-4" />
                       {new Date(article.createdAt).toLocaleDateString('mr-IN')}
                     </span>
                     <span className={`px-2 py-1 rounded text-xs ${
@@ -370,7 +370,7 @@ const Dashboard = () => {
             ))}
           </div>
         ) : (
-          <p className="text-gray-500 text-center py-8">अजून कोणतेही लेख नाहीत</p>
+          <p className="text-gray-500 text-center py-6 sm:py-8 text-sm sm:text-base">अजून कोणतेही लेख नाहीत</p>
         )}
       </div>
     </div>
