@@ -8,7 +8,6 @@ const EPaperManagement2 = () => {
   const [epapers, setEpapers] = useState([]);
   const [selectedEpaper, setSelectedEpaper] = useState(null);
   const [uploading, setUploading] = useState(false);
-  const [loading, setLoading] = useState(true); // Add loading state
   const [showMapping, setShowMapping] = useState(false);
   const [uploadMode, setUploadMode] = useState('pdf'); // 'pdf' or 'pages'
   const [newEpaper, setNewEpaper] = useState({
@@ -35,17 +34,12 @@ const EPaperManagement2 = () => {
 
   const loadEpapers = async () => {
     try {
-      setLoading(true); // Set loading to true
       const data = await apiFetch('/epapers/all');
       if (Array.isArray(data)) {
         setEpapers(data);
-      } else {
-        console.warn('Expected array but got:', typeof data, data);
-        setEpapers([]); // Set empty array if not array
       }
     } catch (error) {
       console.error('Error loading epapers:', error);
-      setEpapers([]); // Set empty array on error to prevent crash
       if (error.isNetworkError || error.message?.includes('Failed to fetch') || error.message?.includes('ERR_CONNECTION_REFUSED')) {
         toast.error('बॅकएंड सर्वर चालू नाही. कृपया सर्वर सुरू करा.', {
           autoClose: 5001
@@ -53,8 +47,6 @@ const EPaperManagement2 = () => {
       } else {
         toast.error('Error loading e-papers: ' + (error.message || 'Unknown error'));
       }
-    } finally {
-      setLoading(false); // Always set loading to false
     }
   };
 
@@ -137,14 +129,11 @@ const EPaperManagement2 = () => {
       const epaper = epapers.find(ep => ep.id === epaperId);
       if (!epaper) return;
 
-      // Only send the fields that need to be updated
       const updatedEpaper = await apiFetch(`/epapers/${epaperId}`, {
         method: 'PUT',
         body: {
-          title: editingTitleValue,
-          date: epaper.date,
-          pages: epaper.pages || [],
-          status: epaper.status || 'published'
+          ...epaper,
+          title: editingTitleValue
         }
       });
 
@@ -156,8 +145,7 @@ const EPaperManagement2 = () => {
       toast.success('Title updated successfully!');
     } catch (error) {
       console.error('Error updating title:', error);
-      const errorMessage = error.body?.error || error.body?.details || error.message || 'Unknown error';
-      toast.error('Error updating title: ' + errorMessage);
+      toast.error('Error updating title: ' + (error.message || 'Unknown error'));
     }
   };
 
@@ -428,18 +416,6 @@ const EPaperManagement2 = () => {
     );
   }
 
-  // Show loading state
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-white p-4 md:p-8 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading e-papers...</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-white p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
@@ -672,16 +648,14 @@ const EPaperManagement2 = () => {
         <div className="bg-white rounded-xl shadow-md p-6">
           <h2 className="text-xl font-semibold text-gray-800 mb-4">Existing E-Papers</h2>
           
-          {!epapers || !Array.isArray(epapers) || epapers.length === 0 ? (
+          {epapers.length === 0 ? (
             <div className="text-center py-12 text-gray-500">
               <FiFile className="w-16 h-16 mx-auto mb-4 opacity-50" />
               <p>No e-papers uploaded yet</p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {epapers.map((epaper) => {
-                if (!epaper || !epaper.id) return null; // Safety check
-                return (
+              {epapers.map((epaper) => (
                 <div
                   key={epaper.id}
                   className="border border-gray-200 rounded-lg p-4 hover:shadow-lg transition-shadow"
@@ -727,21 +701,18 @@ const EPaperManagement2 = () => {
                         </button>
                       </div>
                     )}
-                    <p className="text-sm text-gray-600">{epaper.date || 'N/A'}</p>
+                    <p className="text-sm text-gray-600">{epaper.date}</p>
                     <p className="text-xs text-gray-500 mt-1">
-                      {epaper.pages && Array.isArray(epaper.pages) ? epaper.pages.length : 0} पृष्ठे
+                      {epaper.pages.length} पृष्ठे
                     </p>
                   </div>
                   
-                  {epaper.pages && Array.isArray(epaper.pages) && epaper.pages[0] && epaper.pages[0].image && (
+                  {epaper.pages[0] && (
                     <div className="mb-3">
                       <img
                         src={epaper.pages[0].image}
                         alt="First page"
                         className="w-full h-32 object-cover rounded"
-                        onError={(e) => {
-                          e.target.style.display = 'none';
-                        }}
                       />
                     </div>
                   )}
@@ -762,8 +733,7 @@ const EPaperManagement2 = () => {
                     </button>
                   </div>
                 </div>
-              );
-              })}
+              ))}
             </div>
           )}
         </div>
