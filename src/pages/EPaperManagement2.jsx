@@ -9,7 +9,7 @@ const EPaperManagement2 = () => {
   const [selectedEpaper, setSelectedEpaper] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [showMapping, setShowMapping] = useState(false);
-  const [uploadMode, setUploadMode] = useState('pdf'); // 'pdf' or 'pages'
+  const [uploadMode, setUploadMode] = useState('pages'); // force pages mode (image upload only)
   const [newEpaper, setNewEpaper] = useState({
     title: '',
     date: new Date().toISOString().split('T')[0],
@@ -129,10 +129,10 @@ const EPaperManagement2 = () => {
       const epaper = epapers.find(ep => ep.id === epaperId);
       if (!epaper) return;
 
+      // Only send the fields we actually want to update (avoid resending pages)
       const updatedEpaper = await apiFetch(`/epapers/${epaperId}`, {
         method: 'PUT',
         body: {
-          ...epaper,
           title: editingTitleValue
         }
       });
@@ -435,19 +435,12 @@ const EPaperManagement2 = () => {
               Select Upload Method:
             </label>
             <div className="flex gap-4">
+              {/* PDF upload disabled – we only support image pages now */}
               <button
-                onClick={() => {
-                  setUploadMode('pdf');
-                  setPageUploads([]);
-                  setNewEpaper({ ...newEpaper, pdfFile: null });
-                }}
-                className={`flex-1 px-4 py-2 rounded-lg font-medium transition-colors ${
-                  uploadMode === 'pdf'
-                    ? 'bg-gray-900 text-white'
-                    : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-100'
-                }`}
+                type="button"
+                className="flex-1 px-4 py-2 rounded-lg font-medium bg-gray-100 text-gray-400 cursor-not-allowed"
               >
-                Upload Complete PDF
+                Upload Complete PDF (disabled)
               </button>
               <button
                 onClick={() => {
