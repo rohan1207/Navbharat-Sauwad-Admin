@@ -310,12 +310,24 @@ const ArticleForm = () => {
                   toolbar: 'undo redo | blocks | ' +
                     'bold italic forecolor | alignleft aligncenter ' +
                     'alignright alignjustify | bullist numlist outdent indent | ' +
-                    'removeformat | help',
+                    'table | removeformat | help',
                   language: 'en',
                   content_style: 'body { font-family: "Noto Sans Devanagari", sans-serif; font-size:14px }',
                   images_upload_handler: async (blobInfo, progress) => {
                     const url = await handleImageUpload(blobInfo.blob());
                     return url;
+                  },
+                  // Table configuration
+                  table_toolbar: 'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol',
+                  table_appearance_options: false,
+                  table_grid: true,
+                  table_resize_bars: true,
+                  table_default_attributes: {
+                    border: '1'
+                  },
+                  table_default_styles: {
+                    'border-collapse': 'collapse',
+                    'width': '100%'
                   }
                 }}
               />
