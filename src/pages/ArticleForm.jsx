@@ -20,6 +20,15 @@ const ArticleForm = () => {
     return now.toISOString().split('T')[0];
   };
 
+  // Helper: convert a Date/string to "YYYY-MM-DDTHH:mm" for datetime-local inputs
+  const formatDateTimeForInput = (dateValue) => {
+    if (!dateValue) return '';
+    const d = new Date(dateValue);
+    if (Number.isNaN(d.getTime())) return '';
+    const pad = (n) => String(n).padStart(2, '0');
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  };
+
   const [formData, setFormData] = useState({
     title: '',
     titleEn: '',
@@ -110,7 +119,7 @@ const ArticleForm = () => {
           isFeatured: data.isFeatured || false,
           status: data.status || 'draft',
           date: formatDateForInput(data.date || data.publishedAt || data.createdAt),
-          scheduledAt: data.scheduledAt || '',
+          scheduledAt: formatDateTimeForInput(data.scheduledAt),
           metaKeywords: data.metaKeywords || '',
           metaDescription: data.metaDescription || ''
         });
@@ -162,6 +171,11 @@ const ArticleForm = () => {
     try {
       setLoading(true);
       
+      const scheduledAtIso =
+        !publish && formData.status === 'pending' && formData.scheduledAt
+          ? new Date(formData.scheduledAt).toISOString()
+          : undefined;
+      
       // Clean up payload - remove empty strings for ObjectId fields
       const payload = {
         title: formData.title,
@@ -176,7 +190,7 @@ const ArticleForm = () => {
         isFeatured: formData.isFeatured || false,
         status: publish ? 'published' : formData.status,
         date: formData.date ? new Date(formData.date).toISOString() : new Date().toISOString(),
-        scheduledAt: publish ? undefined : (formData.scheduledAt || undefined),
+        scheduledAt: scheduledAtIso,
         metaKeywords: formData.metaKeywords || undefined,
         metaDescription: formData.metaDescription || undefined
       };
@@ -419,15 +433,15 @@ const ArticleForm = () => {
                     </label>
                     <input
                       type="datetime-local"
-                      value={formData.scheduledAt ? new Date(formData.scheduledAt).toISOString().slice(0, 16) : ''}
+                      value={formData.scheduledAt || ''}
                       onChange={(e) => {
                         const dateTime = e.target.value;
                         setFormData({ 
                           ...formData, 
-                          scheduledAt: dateTime ? new Date(dateTime).toISOString() : ''
+                          scheduledAt: dateTime || ''
                         });
                       }}
-                      min={new Date().toISOString().slice(0, 16)}
+                      min={formatDateTimeForInput(new Date())}
                       className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-900"
                       required={formData.status === 'pending'}
                     />

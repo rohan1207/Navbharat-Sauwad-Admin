@@ -14,7 +14,7 @@ const Settings = () => {
     phone: '',
     address: 'FLAT NO. 303, D WING, AMARA QUADREAM RESIDENCY, NEAR NYATI ETERNITY, PUNEKAR NAGAR, UNDARI, PUNE, MAHARASHTRA - 411060',
     prgiRegNo: 'MHMAR/25/A4153',
-    chiefEditor: 'शिवानी सुरवसे पाटील',
+    chiefEditor: 'shivani survase patil',
     facebook: '',
     twitter: '',
     instagram: '',
